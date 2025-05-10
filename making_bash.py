@@ -57,8 +57,8 @@ def generate_batch(batch_name, codes, device, mult=True, mail=True, log=True, te
 
 	### OUTPUT
 	if log:
-		slurm.append(f"\n#SBATCH --output=slurm_log/slurm_out/{batch_name}_%j.out        # Fichier de sortie")
-		slurm.append(f"#SBATCH --error=slurm_log/slurm_err/{batch_name}_%j.err        # Fichier d'erreur")
+		slurm.append(f"\n#SBATCH --output=slurm_log/slurm_out/{batch_name}_%j.txt        # Fichier de sortie")
+		slurm.append(f"#SBATCH --error=slurm_log/slurm_err/{batch_name}_%j.txt        # Fichier d'erreur")
 
 
 
