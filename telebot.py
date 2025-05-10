@@ -4,11 +4,7 @@ import coloralf as c
 import sys
 
 
-TOKEN_file = f"./../ccalf.txt"
-ID_file = f"./../alfid.txt"
 
-with open(f"{TOKEN_file}", "r") as f : TOKEN = f.read()
-with open(f"{ID_file}", "r") as f : CHAT_ID = f.read()
 
 async def main(text=None, image=None):
 
@@ -52,16 +48,40 @@ def send_image(text=None, image=None):
 
 if __name__ == '__main__':
 
-    print(f"Begin test ...")
+    if "test" in sys.argv[1:]:
 
-    if "message" in sys.argv[1:] or "m" in sys.argv[1:]:
+        TOKEN_file = f"./../ccalf.txt"
+        ID_file = f"./../alfid.txt"
 
-        send_message("Test solo")
-        send_message(["Test combiner...", 12.3, "... c'est bon"])
+        with open(f"{TOKEN_file}", "r") as f : TOKEN = f.read()
+        with open(f"{ID_file}", "r") as f : CHAT_ID = f.read()
 
-    if "image" in sys.argv[1:] or "s" in sys.argv[1:]:
+        print(f"Begin test ...")
 
-        send_image(text="Voici chou : ", image=["./chou128.png"])
+        if "message" in sys.argv[1:] or "m" in sys.argv[1:]:
 
-    print(f"Test end.")
-    # asyncio.run(main())
+            send_message("Test solo")
+            send_message(["Test combiner...", 12.3, "... c'est bon"])
+
+        if "image" in sys.argv[1:] or "s" in sys.argv[1:]:
+
+            send_image(text="Voici chou : ", image=["./chou128.png"])
+
+        print(f"Test end.")
+    
+    else:
+
+        text = None
+        TOKEN_file = None
+        ID_file = None
+
+        for argv in sys.argv[1:]:
+
+            if argv[:4] == "msg=" : text = argv[4:]
+            if argv[:6] == "token=" : TOKEN_file = argv[6:]
+            if argv[:3] == "id=" : ID_file = argv[3:]
+
+        with open(f"{TOKEN_file}", "r") as f : TOKEN = f.read()
+        with open(f"{ID_file}", "r") as f : CHAT_ID = f.read()
+
+        send_message(text)
