@@ -78,7 +78,12 @@ def generate_batch(batch_name, codes, device, mult=True, mail=True, log=True, te
 	if not mult:
 		slurm.append("\n".join([f"{params.python} {code}" for code in codes]))
 	else:
-		slurm.append(" &\n".join([f"{params.srun} --exclusive {code}" for code in codes]))		
+
+		for i, code in enumerate(codes):
+			with open(f"{params.path}/sjob_{i}.sh", "w") as f:
+				f.write(code)
+
+		slurm.append(" &\n".join([f"{params.srun} --exclusive sjob_{i}.sh" for i in range(len(codes))]))		
 		slurm.append(f"wait")
 
 
@@ -93,6 +98,7 @@ def generate_batch(batch_name, codes, device, mult=True, mail=True, log=True, te
 	### WRITING SLURM FILE
 	with open(f"{params.path}/{batch_name}.slurm", "w") as f:
 		f.write("\n".join(slurm))
+
 
 
 
@@ -332,6 +338,7 @@ if __name__ == "__main__":
 
 
 	# Construction of SLURM file:
+
 	generate_batch(batch_name, codes, device, telegram=telegram, mult=mult)
 
 
