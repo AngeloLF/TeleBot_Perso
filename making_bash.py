@@ -81,7 +81,7 @@ def generate_batch(batch_name, codes, device, mult=True, mail=True, log=True, te
 
 		for i, code in enumerate(codes):
 			with open(f"{params.path}/sjob_{i}.sh", "w") as f:
-				f.write(f"{params.python} code")
+				f.write(f"{params.python} {code}")
 
 		slurm.append(" &\n".join([f"{params.srun} --exclusive sjob_{i}.sh" for i in range(len(codes))]))		
 		slurm.append(f"wait")
