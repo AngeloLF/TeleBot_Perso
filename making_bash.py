@@ -22,6 +22,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, t
 
 		slurm.append(f"\n# Description Partition")
 		slurm.append(f"#SBATCH --partition={params.partition_cpu}")
+		slurm.append(f"#SBATCH --account={params.account}")
 
 		slurm.append(f"\n# Description de la taches")
 		slurm.append(f"#SBATCH --cpus-per-task=1        # Nombre de CPUs par tâche")

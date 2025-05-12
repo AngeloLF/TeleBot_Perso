@@ -6,7 +6,8 @@ def __getattr__(name):
     if name in locals() : return locals()[name]
     else : raise ValueError(f"hparameters dont have {name=}.")
 
-partition_cpu = "htc"
+partition_cpu = "lsst,htc"
+account = "lsst"
 partition_gpu = "gpu_interactive"
 python = "python"
 srun = "srun"
