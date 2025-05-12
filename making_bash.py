@@ -3,7 +3,7 @@ import coloralf as c
 import params
 
 
-def generate_batch(batch_name, codes, device, mult=True, mail=True, log=True, telegram=[False, "path_token_file", "path_user_id_file"]):
+def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, telegram=[False, "path_token_file", "path_user_id_file"], ext="slurm"):
 
 	### ENTETE
 
@@ -77,6 +77,7 @@ def generate_batch(batch_name, codes, device, mult=True, mail=True, log=True, te
 
 	if not mult:
 		slurm.append("\n".join([f"{params.python} {code}" for code in codes]))
+		print(f"{params.python} {codes}")
 	else:
 
 		for i, code in enumerate(codes):
@@ -96,7 +97,7 @@ def generate_batch(batch_name, codes, device, mult=True, mail=True, log=True, te
 
 
 	### WRITING SLURM FILE
-	with open(f"{params.path}/{batch_name}.slurm", "w") as f:
+	with open(f"{params.path}/{batch_name}.{ext}", "w") as f:
 		f.write("\n".join(slurm))
 
 
@@ -144,6 +145,8 @@ if __name__ == "__main__":
 
 	mult = True if "mult" in args.keys() else False
 
+	batch_names = list()
+
 
 
 	if batch == "simu_train":
@@ -161,7 +164,7 @@ if __name__ == "__main__":
 
 		device = "cpu"
 		codes = [f"SpecSimulator/alfsimu.py x{xtrain} tsim f={xtrain_label}", f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid_label}"]
-
+		batch_names = [f"{batch_name}_train", f"{batch_name}_valid"]
 
 
 	elif batch == "simu_test":
@@ -180,10 +183,12 @@ if __name__ == "__main__":
 
 		device = "cpu"
 		codes = [f"SpecSimulator/alfsimu.py x{x} tsim f={x_label}", f"SpecSimulator/alfsimu.py x{x} tsim f={x_label}nl noisyless"]
+		batch_names = [f"{batch_name}_noisy", f"{batch_name}_noisyless"]
 
 		if 'full' in args.keys():
 
 			codes.append(f"SpecSimulator/alfsimu.py x{args['full']} tsim v=0 lsp test")
+			batch_names.append(f"{batch_name}_full")
 
 
 
@@ -222,6 +227,7 @@ if __name__ == "__main__":
 			if model_name in os.listdir(f"./Spec2vecModels"):
 
 				codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']}")
+				batch_names.append(f"{batch_name}_{model_name}")
 
 			else:
 
@@ -270,6 +276,7 @@ if __name__ == "__main__":
 				for test in tests:
 
 					codes.append(f"Spec2vecAnalyse/apply_model.py gpu model={model_name} train={args['train']} test={test}")
+					batch_names.append(f"{batch_name}_{model_name}_{test}")
 
 			else:
 
@@ -317,6 +324,7 @@ if __name__ == "__main__":
 				for test in tests:
 
 					codes.append(f"Spec2vecAnalyse/make_graph_result.py model={model_name} train={args['train']} test={test}")
+					batch_names.append(f"{batch_name}_{model_name}_{test}")
 
 			else:
 
@@ -339,7 +347,16 @@ if __name__ == "__main__":
 
 	# Construction of SLURM file:
 
-	generate_batch(batch_name, codes, device, telegram=telegram, mult=mult)
+	if not mult:
+
+		generate_batch(batch_name, codes, device, telegram=telegram)
+
+	else:
+
+		with open(f"{batch_name}.slurm", "w") as f:
+			for name, code in zip(batch_names, codes):
+				generate_batch(name, code, device, telegram=telegram, ext="sh")
+				f.write(f"sbatch {params.path}/{name}.sh\n")
 
 
 
