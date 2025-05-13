@@ -28,6 +28,12 @@ if __name__ == "__main__":
     for t in tvt:
         if int(t) > 1000 : labtvt.append(f"{int(t/1000)}k")
         else : labtvt.append(t)
+    
+    for argv in sys.argv:
+        if argv[:5] == "tvte=" :
+            tvte = argv[5:].split(",")
+            tvt = tvte[:3]
+            epochs = tvte[3]
 
     batchs = ["simu", "training", "testing", "analyse"]
     makings = {
@@ -37,11 +43,6 @@ if __name__ == "__main__":
         "analyse" : f"models={models} train=train{labtvt[0]} test=test{labtvt[2]},test{labtvt[2]}OT,test{labtvt[2]}NL,output_test",
     }
 
-    for argv in sys.argv:
-        if argv[:5] == "tvte=" :
-            tvte = argv[5:].split(",")
-            tvt = tvte[:3]
-            epochs = tvte[3]
 
     print(f"TVT : {tvt}")
     print(f"Epoch : {epochs}")
