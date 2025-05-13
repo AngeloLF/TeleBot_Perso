@@ -38,4 +38,4 @@ if __name__ == "__main__":
 
         for batch in batchs:   
 
-            f.write(f"python Telebot_perso/making_bash.py {batch} {makings[batch]}{mult}\n")
+            f.write(f"python Telebot_Perso/making_bash.py {batch} {makings[batch]}{mult}\n")
