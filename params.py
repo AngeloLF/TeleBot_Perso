@@ -24,16 +24,16 @@ if __name__ == "__main__":
     models = "SCaM,JEC_Unet"
     tvt = ["64", "32", "64"]
     labtvt = list()
-
-    for t in tvt:
-        if int(t) > 1000 : labtvt.append(f"{int(t/1000)}k")
-        else : labtvt.append(t)
     
     for argv in sys.argv:
         if argv[:5] == "tvte=" :
             tvte = argv[5:].split(",")
             tvt = tvte[:3]
             epochs = tvte[3]
+
+    for t in tvt:
+        if int(t) > 1000 : labtvt.append(f"{int(t/1000)}k")
+        else : labtvt.append(t)
 
     batchs = ["simu", "training", "testing", "analyse"]
     makings = {
