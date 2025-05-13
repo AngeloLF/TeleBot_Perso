@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     mult = " mult" if "mult" in sys.argv else "" 
 
-    with open(f"making_batch", "w") as f:
+    with open(f"making_slurms.zzz", "w") as f:
 
         for batch in batchs:   
 
