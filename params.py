@@ -20,11 +20,12 @@ mail = "angelo.lamure-fontanini@ijclab.in2p3.fr"
 
 models = "SCaM,JEC_Unet"
 tvt = ["64", "32", "64"]
+epochs = "2"
 
 batchs = ["simu", "training", "testing", "analyse"]
 makings = {
     "simu" : f"x={tvt[0]}-{tvt[1]}-{tvt[2]}",
-    "training" : f"models={models} train=train{tvt[0]} valid=valid{tvt[1]}",
+    "training" : f"models={models} train=train{tvt[0]} valid=valid{tvt[1]} epoch={epochs}",
     "testing" : f"models={models} train=train{tvt[0]} test=test{tvt[2]},test{tvt[2]}OT,test{tvt[2]}NL,output_test",
     "analyse" : f"models={models} train=train{tvt[0]} test=test{tvt[2]},test{tvt[2]}OT,test{tvt[2]}NL,output_test",
 }
