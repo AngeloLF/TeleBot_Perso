@@ -32,7 +32,7 @@ if __name__ == "__main__":
             epochs = tvte[3]
 
     for t in tvt:
-        if int(t) > 1000 : labtvt.append(f"{int(t/1000)}k")
+        if int(t) > 1000 : labtvt.append(f"{int(int(t)/1000)}k")
         else : labtvt.append(t)
 
     batchs = ["simu", "training", "testing", "analyse"]
