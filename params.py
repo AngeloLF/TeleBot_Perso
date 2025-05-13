@@ -20,14 +20,26 @@ mail = "angelo.lamure-fontanini@ijclab.in2p3.fr"
 
 models = "SCaM,JEC_Unet"
 tvt = ["64", "32", "64"]
+labtvt = list()
+
+for t in tvt:
+
+    if int(t) > 1000:
+
+        labtvt.append(f"{int(t/1000)}k")
+
+    else:
+
+        labtvt.append(t)
+
 epochs = "2"
 
 batchs = ["simu", "training", "testing", "analyse"]
 makings = {
     "simu" : f"x={tvt[0]}-{tvt[1]}-{tvt[2]}",
-    "training" : f"models={models} train=train{tvt[0]} valid=valid{tvt[1]} epoch={epochs}",
-    "testing" : f"models={models} train=train{tvt[0]} test=test{tvt[2]},test{tvt[2]}OT,test{tvt[2]}NL,output_test",
-    "analyse" : f"models={models} train=train{tvt[0]} test=test{tvt[2]},test{tvt[2]}OT,test{tvt[2]}NL,output_test",
+    "training" : f"models={models} train=train{labtvt[0]} valid=valid{labtvt[1]} epoch={epochs}",
+    "testing" : f"models={models} train=train{labtvt[0]} test=test{labtvt[2]},test{labtvt[2]}OT,test{labtvt[2]}NL,output_test",
+    "analyse" : f"models={models} train=train{labtvt[0]} test=test{labtvt[2]},test{labtvt[2]}OT,test{labtvt[2]}NL,output_test",
 }
 
 
