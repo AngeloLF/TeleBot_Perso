@@ -219,7 +219,7 @@ if __name__ == "__main__":
 
 			if model_name in os.listdir(f"./Spec2vecModels"):
 
-				codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']} epoch={args["epoch"]}")
+				codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']} epoch={args['epoch']}")
 				batch_names.append(f"{batch_name}_{model_name}")
 
 			else:
