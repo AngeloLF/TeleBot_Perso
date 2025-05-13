@@ -7,7 +7,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, t
 
 	### ENTETE
 
-	slurm = ["#!/bin/batch"]
+	slurm = ["#!/bin/bash"]
 	slurm.append(f"#SBATCH --job-name={batch_name}               # Nom du job")
 
 
@@ -150,41 +150,31 @@ if __name__ == "__main__":
 
 
 
-	if batch == "simu_train":
+	if batch == "simu":
 		"""
-		x=<nb simu train>-<nb simu valid>
-		"""
-
-		batch_name = "simulator_train"
-
-		xtrain, xvalid = args["x"].split("-")
-		xtrain, xvalid = int(xtrain), int(xvalid)
-
-		xtrain_label = f"train{int(xtrain/1000)}k" if xtrain > 1000 else f"train{xtrain}"
-		xvalid_label = f"valid{int(xvalid/1000)}k" if xvalid > 1000 else f"valid{xvalid}"
-
-		device = "cpu"
-		codes = [f"SpecSimulator/alfsimu.py x{xtrain} tsim f={xtrain_label}", f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid_label}"]
-		batch_names = [f"{batch_name}_train", f"{batch_name}_valid"]
-
-
-	elif batch == "simu_test":
-		"""
-		x=<nb simu test>
+		x=<nb simu train>-<nb simu valid>-<nb simu test>
 
 		opt :
 		full=<nb_for_lsp> [for lsp test]
 		"""
 
-		batch_name = "simulator_test"
-
-		x = int(args["x"])
-
-		x_label = f"test{int(x/1000)}k" if x > 1000 else f"test{x}"
-
+		batch_name = "simulator"
 		device = "cpu"
-		codes = [f"SpecSimulator/alfsimu.py x{x} tsim f={x_label}", f"SpecSimulator/alfsimu.py x{x} tsim f={x_label}nl noisyless"]
-		batch_names = [f"{batch_name}_noisy", f"{batch_name}_noisyless"]
+
+		xtrain, xvalid, xtest = args["x"].split("-")
+		xtrain, xvalid, xtest = int(xtrain), int(xvalid), int(xtest)
+
+		xtrain_label = f"train{int(xtrain/1000)}k" if xtrain > 1000 else f"train{xtrain}"
+		xvalid_label = f"valid{int(xvalid/1000)}k" if xvalid > 1000 else f"valid{xvalid}"
+		xtest_label  = f"test{int(xtest/1000)}k" if xtest > 1000 else f"test{xtest}"
+
+		codes = [f"SpecSimulator/alfsimu.py x{xtrain} tsim f={xtrain_label}", 
+			     f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid_label}",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label} test",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}OT test set1",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}NL test noisyless"]
+		batch_names = [f"{batch_name}_train", f"{batch_name}_valid", f"{batch_name}_test", f"{batch_name}_testOT", f"{batch_name}_testNL"]
+
 
 		if 'full' in args.keys():
 
@@ -210,14 +200,14 @@ if __name__ == "__main__":
 
 			error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{args['train']}` unknow"
 			print(f"{c.r}{error}{c.d}")
-			raise Exception(error)
+			# raise Exception(error)
 
 		# Valid folder verification
 		if args["valid"] not in os.listdir(f"./results/output_simu"):
 
 			error = f"WARNING [making_batch.py] : for batch={batch}, folder valid `{args['valid']}` unknow"
 			print(f"{c.r}{error}{c.d}")
-			raise Exception(error)
+			# raise Exception(error)
 
 
 		# Add codes
@@ -234,7 +224,7 @@ if __name__ == "__main__":
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
 				print(f"{c.r}{error}{c.d}")
-				raise Exception(error)
+				# raise Exception(error)
 
 
 
@@ -256,7 +246,7 @@ if __name__ == "__main__":
 
 			error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{args['train']}` unknow"
 			print(f"{c.r}{error}{c.d}")
-			raise Exception(error)
+			# raise Exception(error)
 
 		# Train folder verification
 		for test in tests:
@@ -265,7 +255,7 @@ if __name__ == "__main__":
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, folder test `{test}` unknow"
 				print(f"{c.r}{error}{c.d}")
-				raise Exception(error)
+				# raise Exception(error)
 
 		# Add codes
 		codes = list()
@@ -283,7 +273,7 @@ if __name__ == "__main__":
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
 				print(f"{c.r}{error}{c.d}")
-				raise Exception(error)
+				# raise Exception(error)
 
 
 	elif batch == "analyse":
@@ -304,7 +294,7 @@ if __name__ == "__main__":
 
 			error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{args['train']}` unknow"
 			print(f"{c.r}{error}{c.d}")
-			raise Exception(error)
+			# raise Exception(error)
 
 		# Train folder verification
 		for test in tests:
@@ -313,7 +303,7 @@ if __name__ == "__main__":
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, folder test `{test}` unknow"
 				print(f"{c.r}{error}{c.d}")
-				raise Exception(error)
+				# raise Exception(error)
 
 		# Add codes
 		codes = list()
@@ -331,7 +321,7 @@ if __name__ == "__main__":
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
 				print(f"{c.r}{error}{c.d}")
-				raise Exception(error)
+				# raise Exception(error)
 
 
 

@@ -50,8 +50,8 @@ if __name__ == '__main__':
 
     if "test" in sys.argv[1:]:
 
-        TOKEN_file = f"./../ccalf.txt"
-        ID_file = f"./../alfid.txt"
+        TOKEN_file = f"{path_home}ccalf.txt"
+        ID_file = f"{path_home}alfid.txt"
 
         with open(f"{TOKEN_file}", "r") as f : TOKEN = f.read()
         with open(f"{ID_file}", "r") as f : CHAT_ID = f.read()
