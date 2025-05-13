@@ -189,6 +189,7 @@ if __name__ == "__main__":
 		models=<model_name1>,<model_name2> ...
 		train=<folder_train>
 		valid=<folder_valid>
+		epoch=<num_epoch>
 		"""
 
 		device = "gpu"
@@ -218,7 +219,7 @@ if __name__ == "__main__":
 
 			if model_name in os.listdir(f"./Spec2vecModels"):
 
-				codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']}")
+				codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']} epoch={args["epoch"]}")
 				batch_names.append(f"{batch_name}_{model_name}")
 
 			else:
@@ -284,7 +285,7 @@ if __name__ == "__main__":
 		test=<folder_test1>,<folder_test2>
 		"""
 
-		device = "gpu"
+		device = "cpu"
 		models_name = args["models"].split(",")
 		tests = args["test"].split(",")
 		batch_name = "analyse_model"
