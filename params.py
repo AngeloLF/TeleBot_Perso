@@ -34,6 +34,16 @@ for t in tvt:
 
 epochs = "2"
 
+for argv in sys.argv:
+    if argv[:5] == "tvte=" :
+        tvte = argv[5:].split(",")
+        tvt = tvte[:3]
+        epochs = tvte[3]
+
+print(f"TVT : {tvt}")
+print(f"Epoch : {epochs}")
+
+
 batchs = ["simu", "training", "testing", "analyse"]
 makings = {
     "simu" : f"x={tvt[0]}-{tvt[1]}-{tvt[2]}",
