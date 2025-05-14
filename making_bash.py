@@ -171,8 +171,10 @@ if __name__ == "__main__":
 
 		codes = [f"SpecSimulator/alfsimu.py x{xtrain} tsim f={xtrain_label}", 
 			     f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid_label}",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label} test",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}Ext test",
 			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}OT test set1",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}HoloPhP test disp=HoloPhP",
 			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}NL test noisyless"]
 		batch_names = [f"{batch_name}_train", f"{batch_name}_valid", f"{batch_name}_test", f"{batch_name}_testOT", f"{batch_name}_testNL"]
 
@@ -327,6 +329,9 @@ if __name__ == "__main__":
 
 
 
+	else :
+
+		raise Exception(f"Batch {batch} unknow")
 
 
 
