@@ -91,10 +91,10 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, t
 
 
 	### TELEGRAM MESSAGE
-	if telegram[0]:
-		slurm.append(f"\n# Send a telegram msg")
-		msg = f"'BATCH {batch_name} finish'"
-		slurm.append(f"{params.python} TeleBot_Perso/telebot.py msg={msg} token={telegram[1]} id={telegram[2]}")
+	# if telegram[0]:
+	# 	slurm.append(f"\n# Send a telegram msg")
+	# 	msg = f"'BATCH {batch_name} finish'"
+	# 	slurm.append(f"{params.python} TeleBot_Perso/telebot.py msg={msg} token={telegram[1]} id={telegram[2]}")
 
 
 
