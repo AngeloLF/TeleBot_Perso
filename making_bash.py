@@ -173,9 +173,9 @@ if __name__ == "__main__":
 			     f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid_label}",
 			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}",
 			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}Ext test",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}OT test set1",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}HoloPhP test disp=HoloPhP",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}NL test noisyless"]
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}OT set1",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}HoloPhP disp=HoloPhP",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}NL noisyless"]
 		batch_names = [f"{batch_name}_train", f"{batch_name}_valid", f"{batch_name}_test", 
 				       f"{batch_name}_testExt", f"{batch_name}_testOT", f"{batch_name}_testHoloPhP", f"{batch_name}_testNL"]
 
