@@ -42,8 +42,8 @@ if __name__ == "__main__":
     makings = {
         "simu" : f"x={tvt[0]}-{tvt[1]}-{tvt[2]}{full}",
         "training" : f"models={models} train=train{labtvt[0]} valid=valid{labtvt[1]} epoch={epochs}",
-        "testing" : f"models={models} train=train{labtvt[0]} test=test{labtvt[2]},test{labtvt[2]}OT,test{labtvt[2]}NL,output_test",
-        "analyse" : f"models={models} train=train{labtvt[0]} test=test{labtvt[2]},test{labtvt[2]}OT,test{labtvt[2]}NL,output_test",
+        "testing" : f"models={models} train=train{labtvt[0]} test=test{labtvt[2]},test{labtvt[2]}Ext,test{labtvt[2]}OT,test{labtvt[2]}HoloPhP,test{labtvt[2]}NL,output_test",
+        "analyse" : f"models={models} train=train{labtvt[0]} test=test{labtvt[2]},test{labtvt[2]}Ext,test{labtvt[2]}OT,test{labtvt[2]}HoloPhP,test{labtvt[2]}NL,output_test",
     }
 
 
