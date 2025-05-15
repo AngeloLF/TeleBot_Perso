@@ -21,7 +21,7 @@ mail = "angelo.lamure-fontanini@ijclab.in2p3.fr"
 if __name__ == "__main__":
 
     epochs = "2"
-    models = "SCaM,JEC_Unet"
+    models = "SCaM_L1,SCaM_HL1,SCaM_HL3,SCaM_MSLE"
     tvt = ["64", "32", "64"]
     labtvt = list()
     full = ""
