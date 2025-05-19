@@ -3,7 +3,7 @@ import coloralf as c
 import params
 
 
-def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, telegram=[False, "path_token_file", "path_user_id_file"], ext="slurm"):
+def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, discobot=False, ext="slurm"):
 
 	### ENTETE
 
@@ -90,11 +90,12 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, t
 		slurm.append(f"wait")
 
 
+
 	### TELEGRAM MESSAGE
-	# if telegram[0]:
-	# 	slurm.append(f"\n# Send a telegram msg")
-	# 	msg = f"'BATCH {batch_name} finish'"
-	# 	slurm.append(f"{params.python} TeleBot_Perso/telebot.py msg={msg} token={telegram[1]} id={telegram[2]}")
+	if discobot:
+		slurm.append(f"\n# Send a discord msg")
+		msg = f"'BATCH {batch_name} finish'"
+		slurm.append(f"{params.python} TeleBot_Perso/discobot.py msg={msg}")
 
 
 
@@ -140,13 +141,10 @@ if __name__ == "__main__":
 	batch = sys.argv[1]
 	args = read_SYSargv(sys.argv[2:]) if batch != "flash" else read_SYSargv(sys.argv[3:])
 
-	if "telegram" not in args.keys() : args["telegram"] = True
-	else : args["telegram"] = False if args["telegram"] == "False" else True
-
-	telegram = [False, params.telegram_token, params.telegram_user]
+	if "discobot" not in args.keys() : discobot = True
+	else : discobot = False if args["telegram"] == "False" else True
 
 	mult = True if "mult" in args.keys() else False
-
 	batch_names = list()
 
 
@@ -351,22 +349,17 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-
 	# Construction of SLURM file:
 
 	if not mult:
 
-		generate_batch(batch_name, codes, device, telegram=telegram)
+		generate_batch(batch_name, codes, device, discobot=discobot)
 
 	else:
 
 		with open(f"{batch_name}.slurm", "w") as f:
 			for name, code in zip(batch_names, codes):
-				generate_batch(name, code, device, telegram=telegram, ext="sh")
+				generate_batch(name, code, device, discobot=discobot, ext="sh")
 				f.write(f"sbatch {params.path}/{name}.sh\n")
 
 
