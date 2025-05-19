@@ -143,7 +143,7 @@ if __name__ == "__main__":
 	if "telegram" not in args.keys() : args["telegram"] = True
 	else : args["telegram"] = False if args["telegram"] == "False" else True
 
-	telegram = [args["telegram"], params.telegram_token, params.telegram_user]
+	telegram = [False, params.telegram_token, params.telegram_user]
 
 	mult = True if "mult" in args.keys() else False
 
@@ -169,15 +169,12 @@ if __name__ == "__main__":
 		xvalid_label = f"valid{int(xvalid/1000)}k" if xvalid > 1000 else f"valid{xvalid}"
 		xtest_label  = f"test{int(xtest/1000)}k" if xtest > 1000 else f"test{xtest}"
 
-		codes = [f"SpecSimulator/alfsimu.py x{xtrain} tsim f={xtrain_label}", 
-			     f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid_label}",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}Ext test",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}OT set1",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}HoloPhP disp=HoloPhP",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}NL noisyless"]
-		batch_names = [f"{batch_name}_train", f"{batch_name}_valid", f"{batch_name}_test", 
-				       f"{batch_name}_testExt", f"{batch_name}_testOT", f"{batch_name}_testHoloPhP", f"{batch_name}_testNL"]
+		codes = [f"SpecSimulator/alfsimu.py x{xtrain} tsim f={xtrain}",
+			     f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid}",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest}",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest}Ext test",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest}OT set1"]
+		batch_names = [f"{batch_name}_train", f"{batch_name}_valid", f"{batch_name}_test", f"{batch_name}_testExt", f"{batch_name}_testOT"]
 
 
 		if 'full' in args.keys():
@@ -190,22 +187,26 @@ if __name__ == "__main__":
 	elif batch == "training":
 		"""
 		models=<model_name1>,<model_name2> ...
-		train=<folder_train>
+		train=<folder_train1>,<folder_train2> ...
 		valid=<folder_valid>
 		epoch=<num_epoch>
+		lr=<lr1>,<lr2> ...
 		"""
 
 		device = "gpu"
 		models_name = args["models"].split(",")
+		trains = args["train"].split(",")
+		lrs = args["lr"].split(",")
 		batch_name = "training_model"
 
 
 		# Train folder verification
-		if args["train"] not in os.listdir(f"./results/output_simu"):
+		for train in trains:
+			if train not in os.listdir(f"./results/output_simu"):
 
-			error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{args['train']}` unknow"
-			print(f"{c.r}{error}{c.d}")
-			# raise Exception(error)
+				error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{train}` unknow"
+				print(f"{c.r}{error}{c.d}")
+				# raise Exception(error)
 
 		# Valid folder verification
 		if args["valid"] not in os.listdir(f"./results/output_simu"):
@@ -222,8 +223,10 @@ if __name__ == "__main__":
 
 			if model_name in os.listdir(f"./Spec2vecModels"):
 
-				codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']} epoch={args['epoch']}")
-				batch_names.append(f"{batch_name}_{model_name}")
+				for lr in lrs:
+
+					codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']} epoch={args['epoch']} lr={lr}")
+					batch_names.append(f"{batch_name}_{model_name}")
 
 			else:
 
