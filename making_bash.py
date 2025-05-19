@@ -34,7 +34,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, t
 
 		slurm.append(f"\n# Description Partition")
 		slurm.append(f"#SBATCH --partition={params.partition_gpu}")
-		slurm.append(f"#SBATCH --gres=gpu:v100:1")
+		slurm.append(f"#SBATCH --gres=gpu:h100:1")
 		slurm.append(f"#SBATCH --account={params.account}")
 		
 		slurm.append(f"\n# Description de la taches")
@@ -113,7 +113,7 @@ def read_SYSargv(argv):
 
 	for arg in argv:
 
-		if "=" in arg:
+		if "=" in arg and ".py" not in arg:
 
 			k, v = arg.split("=")
 			ARGS[k] = v
@@ -138,7 +138,7 @@ if __name__ == "__main__":
 	"""
 
 	batch = sys.argv[1]
-	args = read_SYSargv(sys.argv[2:])
+	args = read_SYSargv(sys.argv[2:]) if batch != "flash" else read_SYSargv(sys.argv[3:])
 
 	if "telegram" not in args.keys() : args["telegram"] = True
 	else : args["telegram"] = False if args["telegram"] == "False" else True
@@ -151,7 +151,16 @@ if __name__ == "__main__":
 
 
 
-	if batch == "simu":
+	if batch == "flash" :
+
+		device = "gpu" if "gpu" in args.keys() else "cpu"
+		batch_name = "flash" if "name" not in args.keys() else args["name"]
+
+		codes = [sys.argv[2]]
+
+
+
+	elif batch == "simu":
 		"""
 		x=<nb simu train>-<nb simu valid>-<nb simu test>
 
