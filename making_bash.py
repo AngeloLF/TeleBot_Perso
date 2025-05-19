@@ -176,11 +176,11 @@ if __name__ == "__main__":
 		xvalid_label = f"valid{int(xvalid/1000)}k" if xvalid > 1000 else f"valid{xvalid}"
 		xtest_label  = f"test{int(xtest/1000)}k" if xtest > 1000 else f"test{xtest}"
 
-		codes = [f"SpecSimulator/alfsimu.py x{xtrain} tsim f={xtrain}",
-			     f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid}",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest}",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest}Ext test",
-			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest}OT set1"]
+		codes = [f"SpecSimulator/alfsimu.py x{xtrain} tsim f={xtrain_label}",
+			     f"SpecSimulator/alfsimu.py x{xvalid} tsim f={xvalid_label}",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}Ext test",
+			     f"SpecSimulator/alfsimu.py x{xtest} tsim f={xtest_label}OT set1"]
 		batch_names = [f"{batch_name}_train", f"{batch_name}_valid", f"{batch_name}_test", f"{batch_name}_testExt", f"{batch_name}_testOT"]
 
 
