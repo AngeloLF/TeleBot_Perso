@@ -1,5 +1,4 @@
 import os, sys
-import coloralf as c
 import params
 
 
@@ -45,7 +44,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 
 	else:
 
-		print(f"{c.r}WARNING : le device {device} n'existe pas ! Cela doit être : cpu, gpu")
+		print(f"WARNING : le device {device} n'existe pas ! Cela doit être : cpu, gpu")
 
 
 
@@ -212,14 +211,14 @@ if __name__ == "__main__":
 			if train not in os.listdir(f"./results/output_simu"):
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{train}` unknow"
-				print(f"{c.r}{error}{c.d}")
+				print(f"{error}")
 				# raise Exception(error)
 
 		# Valid folder verification
 		if args["valid"] not in os.listdir(f"./results/output_simu"):
 
 			error = f"WARNING [making_batch.py] : for batch={batch}, folder valid `{args['valid']}` unknow"
-			print(f"{c.r}{error}{c.d}")
+			print(f"{error}")
 			# raise Exception(error)
 
 
@@ -233,12 +232,12 @@ if __name__ == "__main__":
 				for lr in lrs:
 
 					codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']} epoch={args['epoch']} lr={lr}")
-					batch_names.append(f"{batch_name}_{model_name}")
+					batch_names.append(f"{batch_name}_{model_name}_{lr}")
 
 			else:
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
-				print(f"{c.r}{error}{c.d}")
+				print(f"{error}")
 				# raise Exception(error)
 
 
@@ -260,7 +259,7 @@ if __name__ == "__main__":
 		if args["train"] not in os.listdir(f"./results/output_simu"):
 
 			error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{args['train']}` unknow"
-			print(f"{c.r}{error}{c.d}")
+			print(f"{error}")
 			# raise Exception(error)
 
 		# Train folder verification
@@ -269,7 +268,7 @@ if __name__ == "__main__":
 			if test not in [*os.listdir(f"./results/output_simu"), *os.listdir(f"./results")]:
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, folder test `{test}` unknow"
-				print(f"{c.r}{error}{c.d}")
+				print(f"{error}")
 				# raise Exception(error)
 
 		# Add codes
@@ -287,7 +286,7 @@ if __name__ == "__main__":
 			else:
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
-				print(f"{c.r}{error}{c.d}")
+				print(f"{error}")
 				# raise Exception(error)
 
 
@@ -308,7 +307,7 @@ if __name__ == "__main__":
 		if args["train"] not in os.listdir(f"./results/output_simu"):
 
 			error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{args['train']}` unknow"
-			print(f"{c.r}{error}{c.d}")
+			print(f"{error}")
 			# raise Exception(error)
 
 		# Train folder verification
@@ -317,7 +316,7 @@ if __name__ == "__main__":
 			if test not in [*os.listdir(f"./results/output_simu"), *os.listdir(f"./results")]:
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, folder test `{test}` unknow"
-				print(f"{c.r}{error}{c.d}")
+				print(f"{error}")
 				# raise Exception(error)
 
 		# Add codes
@@ -335,7 +334,7 @@ if __name__ == "__main__":
 			else:
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
-				print(f"{c.r}{error}{c.d}")
+				print(f"{error}")
 				# raise Exception(error)
 
 
