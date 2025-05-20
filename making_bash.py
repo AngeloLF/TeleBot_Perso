@@ -33,7 +33,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 
 		slurm.append(f"\n# Description Partition")
 		slurm.append(f"#SBATCH --partition={params.partition_gpu}")
-		slurm.append(f"#SBATCH --gres=gpu:h100:1")
+		slurm.append(f"#SBATCH --gres=gpu:v100:1")
 		slurm.append(f"#SBATCH --account={params.account}")
 		
 		slurm.append(f"\n# Description de la taches")
