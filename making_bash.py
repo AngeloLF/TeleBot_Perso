@@ -252,7 +252,7 @@ if __name__ == "__main__":
 		lr=<lr1>,<lr2> ...
 		"""
 
-		device = "gpu"
+		device = "gpu" if "gpu" in args.keys() else "cpu"
 		models_name = args["models"].split(",")
 		trains = args["train"].split(",")
 		tests = args["test"].split(",")
