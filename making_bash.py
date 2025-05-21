@@ -231,8 +231,10 @@ if __name__ == "__main__":
 
 				for lr in lrs:
 
-					codes.append(f"Spec2vecModels/{model_name}/train_model.py train={args['train']} valid={args['valid']} epoch={args['epoch']} lr={lr}")
-					batch_names.append(f"{batch_name}_{model_name}_{lr}")
+					for train in trains:
+
+						codes.append(f"Spec2vecModels/{model_name}/train_model.py train={train} valid={args['valid']} epoch={args['epoch']} lr={lr}")
+						batch_names.append(f"{batch_name}_{model_name}_{train}_{lr}")
 
 			else:
 
@@ -283,10 +285,12 @@ if __name__ == "__main__":
 
 				for lr in lrs:
 
-					for test in tests:
+					for train in trains:
 
-						codes.append(f"Spec2vecAnalyse/apply_model.py gpu model={model_name} train={args['train']} test={test} lr={lr}")
-						batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}")
+						for test in tests:
+
+							codes.append(f"Spec2vecAnalyse/apply_model.py gpu model={model_name} train={args['train']} test={test} lr={lr}")
+							batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}")
 
 			else:
 
@@ -298,31 +302,34 @@ if __name__ == "__main__":
 	elif batch == "analyse":
 		"""
 		models=<model_name1>,<model_name2> ...
-		train=<folder_train>
-		test=<folder_test1>,<folder_test2>
+		train=<folder_train>,<folder_train> ...
+		test=<folder_test1>,<folder_test2> ...
+		lr=<lr1>,<lr2> ...
 		"""
 
 		device = "cpu"
 		models_name = args["models"].split(",")
+		trains = args["train"].split(",")
 		tests = args["test"].split(",")
+		lrs = args["lr"].split(",")
 		batch_name = "analyse_model"
 
 
 		# Train folder verification
-		if args["train"] not in os.listdir(f"./results/output_simu"):
+		for train in trains:
+			if train not in os.listdir(f"./results/output_simu"):
 
-			error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{args['train']}` unknow"
-			print(f"{error}")
-			# raise Exception(error)
+				error = f"WARNING [making_batch.py] : for batch={batch}, folder train `{train}` unknow"
+				print(f"{error}")
+
 
 		# Train folder verification
 		for test in tests:
-
 			if test not in [*os.listdir(f"./results/output_simu"), *os.listdir(f"./results")]:
 
 				error = f"WARNING [making_batch.py] : for batch={batch}, folder test `{test}` unknow"
 				print(f"{error}")
-				# raise Exception(error)
+
 
 		# Add codes
 		codes = list()
@@ -331,10 +338,14 @@ if __name__ == "__main__":
 
 			if model_name in os.listdir(f"./Spec2vecModels"):
 
-				for test in tests:
+				for lr in lrs:
 
-					codes.append(f"Spec2vecAnalyse/make_graph_result.py model={model_name} train={args['train']} test={test}")
-					batch_names.append(f"{batch_name}_{model_name}_{test}")
+					for train in trains:
+
+						for test in tests:
+
+							codes.append(f"Spec2vecAnalyse/analyse_test.py model={model_name} train={train} test={test} lr={lr}")
+							batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}")
 
 			else:
 
