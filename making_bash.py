@@ -305,6 +305,7 @@ if __name__ == "__main__":
 		train=<folder_train>,<folder_train> ...
 		test=<folder_test1>,<folder_test2> ...
 		lr=<lr1>,<lr2> ...
+		score=<score1>,<score2> ...
 		"""
 
 		device = "cpu"
@@ -312,6 +313,7 @@ if __name__ == "__main__":
 		trains = args["train"].split(",")
 		tests = args["test"].split(",")
 		lrs = args["lr"].split(",")
+		scores = args["score"].split(",")
 		batch_name = "analyse_model"
 
 
@@ -344,8 +346,10 @@ if __name__ == "__main__":
 
 						for test in tests:
 
-							codes.append(f"Spec2vecAnalyse/analyse_test.py model={model_name} train={train} test={test} lr={lr}")
-							batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}")
+							for score in scores:
+
+								codes.append(f"Spec2vecAnalyse/analyse_test.py model={model_name} train={train} test={test} lr={lr} score={score}")
+								batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}_{score}")
 
 			else:
 
