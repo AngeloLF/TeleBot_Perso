@@ -140,8 +140,8 @@ if __name__ == "__main__":
 	batch = sys.argv[1]
 	args = read_SYSargv(sys.argv[2:]) if batch != "flash" else read_SYSargv(sys.argv[3:])
 
-	if "discobot" not in args.keys() : discobot = True
-	else : discobot = False if args["telegram"] == "False" else True
+	# if "discobot" not in args.keys() : discobot = True
+	discobot = True if "discobot" in args.keys() else False
 
 	mult = True if "mult" in args.keys() else False
 	batch_names = list()
