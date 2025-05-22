@@ -289,7 +289,7 @@ if __name__ == "__main__":
 
 						for test in tests:
 
-							codes.append(f"Spec2vecAnalyse/apply_model.py {device} model={model_name} train={args['train']} test={test} lr={lr}")
+							codes.append(f"Spec2vecAnalyse/apply_model.py {device} model={model_name} train={train} test={test} lr={lr}")
 							batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}")
 
 			else:
