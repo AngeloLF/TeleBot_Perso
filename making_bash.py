@@ -202,12 +202,14 @@ if __name__ == "__main__":
 		valid=<folder_valid>
 		epoch=<num_epoch>
 		lr=<lr1>,<lr2> ...
+		loss=<loss1>,<loss2> ...
 		"""
 
 		device = "gpu"
 		models_name = args["models"].split(",")
 		trains = args["train"].split(",")
 		lrs = args["lr"].split(",")
+		losses = args["loss"].split(",")
 		batch_name = "training_model"
 
 
@@ -232,18 +234,20 @@ if __name__ == "__main__":
 
 		for model_name in models_name:
 
-			if model_name in os.listdir(f"./Spec2vecModels"):
+			if f"{model_name}.py" in os.listdir(f"./Spec2vecModels/architecture"):
 
 				for lr in lrs:
 
 					for train in trains:
 
-						codes.append(f"Spec2vecModels/{model_name}/train_model.py train={train} valid={args['valid']} epoch={args['epoch']} lr={lr}")
-						batch_names.append(f"{batch_name}_{model_name}_{train}_{lr}")
+						for loss in losses:
+
+							codes.append(f"Spec2vecModels/train_models.py model={model_name} train={train} valid={args['valid']} epoch={args['epoch']} lr={lr} loss={loss}")
+							batch_names.append(f"{batch_name}_{model_name}_{loss}_{train}_{lr}")
 
 			else:
 
-				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
+				error = f"WARNING [making_batch.py] : for batch={batch}, model architecture `{model_name}` unknow"
 				print(f"{error}")
 				# raise Exception(error)
 
