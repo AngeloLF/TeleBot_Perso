@@ -2,7 +2,7 @@ import os, sys
 import params
 
 
-def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, discobot=False, ext="slurm"):
+def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, discobot=False, ext="slurm", mem=None):
 
 	### ENTETE
 
@@ -19,6 +19,8 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 	### DEVICE
 	if device == "cpu":
 
+		memcpu = "4G" if mem is None else f"{mem}G" 
+
 		slurm.append(f"\n# Description Partition")
 		slurm.append(f"#SBATCH --partition={params.partition_cpu}")
 		slurm.append(f"#SBATCH --account={params.account}")
@@ -27,9 +29,11 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 		slurm.append(f"#SBATCH --cpus-per-task=1        # Nombre de CPUs par tâche")
 		slurm.append(f"#SBATCH --time=1-00:00:00        # Limite de temps")
 		slurm.append(f"#SBATCH --ntasks={ntasks}        # Nombre de tâches")
-		slurm.append(f"#SBATCH --mem=4G        # Mémoire demandée")	
+		slurm.append(f"#SBATCH --mem={memcpu}        # Mémoire demandée")	
 
 	elif device == "gpu":
+
+		memgpu = "16G" if mem is None else f"{mem}G" 
 
 		slurm.append(f"\n# Description Partition")
 		slurm.append(f"#SBATCH --partition={params.partition_gpu}")
@@ -40,7 +44,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 		slurm.append(f"#SBATCH --cpus-per-task=5")
 		slurm.append(f"#SBATCH --time=1-00:00:00        # Limite de temps")
 		slurm.append(f"#SBATCH --ntasks={ntasks}        # Nombre de tâches")
-		slurm.append(f"#SBATCH --mem=16G        # Mémoire demandée")
+		slurm.append(f"#SBATCH --mem={memgpu}        # Mémoire demandée")
 
 	else:
 
@@ -140,10 +144,11 @@ if __name__ == "__main__":
 	batch = sys.argv[1]
 	args = read_SYSargv(sys.argv[2:]) if batch != "flash" else read_SYSargv(sys.argv[3:])
 
-	# if "discobot" not in args.keys() : discobot = True
+	
 	discobot = True if "discobot" in args.keys() else False
-
 	mult = True if "mult" in args.keys() else False
+	mem = None if "mem" not in args.keys() else args["mem"]
+
 	batch_names = list()
 
 
@@ -361,6 +366,11 @@ if __name__ == "__main__":
 
 	else :
 
+		if batch in "help":
+
+			pass
+
+
 		raise Exception(f"Batch {batch} unknow")
 
 
@@ -372,13 +382,13 @@ if __name__ == "__main__":
 
 	if not mult:
 
-		generate_batch(batch_name, codes, device, discobot=discobot)
+		generate_batch(batch_name, codes, device, discobot=discobot, mem=mem)
 
 	else:
 
 		with open(f"{batch_name}.slurm", "w") as f:
 			for name, code in zip(batch_names, codes):
-				generate_batch(name, code, device, discobot=discobot, ext="sh")
+				generate_batch(name, code, device, discobot=discobot, ext="sh", mem=mem)
 				f.write(f"sbatch {params.path}/{name}.sh\n")
 
 
