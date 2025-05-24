@@ -290,7 +290,7 @@ if __name__ == "__main__":
 
 		for model_name in models_name:
 
-			if f"{model_name}.py" in os.listdir(f"./results/Spec2vecModels_Results"):
+			if model_name in os.listdir(f"./results/Spec2vecModels_Results"):
 
 				for lr in lrs:
 
