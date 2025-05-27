@@ -44,15 +44,13 @@ async def main(text=None, image=None):
         print(f"{c.r}WARNING [in telebot.py] : {e}{c.d}")
 
 
-def send_message(text, folder_):
+def send_message(text):
 
     asyncio.run(main(text=text))
 
 def send_image(text=None, image=None):
 
     asyncio.run(main(text=text, image=image))
-
-
 
 
 if __name__ == '__main__':
