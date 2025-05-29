@@ -24,9 +24,11 @@ def extraction_code(code):
 
 
 
-def extraction(sh):
+def extraction(sh, debug):
 
 	with open(sh, "r") as f:
+
+		if debug : print(f"Sh : {c.ti}{sh}{c.d}")
 
 		lines = f.read().split("\n")
 
@@ -34,10 +36,17 @@ def extraction(sh):
 
 			if "python" in line:
 
+				if debug : print(f"{c.ti}Get python ...{c.d}")
 				params = extraction_code(line)
 
-				if "train_models" in line : inspect_training(params)
-				if "alfsimu" in line : inspect_simu(params)
+				if "train_models" in line: 
+					if debug : print(f"{c.ti}train_models ...{c.d}")
+					inspect_training(params)
+				elif "alfsimu" in line: 
+					if debug : print(f"{c.ti}alfsimu ...{c.d}")
+					inspect_simu(params)
+				else:
+					if debug : print(f"{c.ti}Unknow ...{c.d}")
 
 
 
@@ -98,6 +107,8 @@ def get_color(nb_make, nb_total):
 
 if __name__ == "__main__":
 
+	debug = True if sys.argv[1] == 'debug' else False
+
 	shs = [file for file in os.listdir() if file[-3:] == ".sh"] + [file for file in os.listdir() if file[-3:] == ".slurm"]
 
-	for sh in shs : extraction(sh)
+	for sh in shs : extraction(sh, debug)
