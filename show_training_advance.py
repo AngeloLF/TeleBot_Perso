@@ -69,29 +69,43 @@ def inspect_training(params):
 	train_name = f"{params['train']}_{LR}"
 	epoch = int(params['epoch'])
 
-	nb_make = len(os.listdir(f"./results/Spec2vecModels_Results/{model_name}/epoch/{load_name}{train_name}"))
-	lmax = len(str(epoch))
+	if f"{load_name}{train_name}" in os.listdir(f"./results/Spec2vecModels_Results/{model_name}/epoch/"):
 
-	color = get_color(nb_make, epoch)
+		nb_make = len(os.listdir(f"./results/Spec2vecModels_Results/{model_name}/epoch/{load_name}{train_name}"))
+		lmax = len(str(epoch))
 
-	print(f"Training {model_name} with {load_name}{train_name} : {color}{nb_make:{lmax}}/{epoch}{c.d} [{nb_make/epoch*100:6.2f} %]")
+		color = get_color(nb_make, epoch)
+
+		print(f"Training {model_name} with {load_name}{train_name} : {color}{nb_make:{lmax}}/{epoch}{c.d} [{nb_make/epoch*100:6.2f} %]")
+
+	else:
+
+		print(f"Training {model_name} with {load_name}{train_name} : {c.r}{c.tu}{c.ti}Not exist ...{c.d}")
 
 
 
 def inspect_simu(params):
 
 	path = f"./results/output_simu/{params['f']}"
-	nb_make = len(os.listdir(f"{path}/image"))
+	
 
 	for param in params:
 
 		if param[0] == "x" : x = int(param[1:])
 		if param[:3] == "set" : s = param
 
-	color = get_color(nb_make, x)
-	lmax = len(str(x))
 
-	print(f"Simulator {params['f']} : {s} : {color}{nb_make:{lmax}}/{x}{c.d} [{nb_make/x*100:6.2f} %]")
+	if params['f'] in os.listdir(f"./results/output_simu/"):
+
+		nb_make = len(os.listdir(f"{path}/image"))
+		color = get_color(nb_make, x)
+		lmax = len(str(x))
+
+		print(f"Simulator {params['f']} > {s} : {color}{nb_make:{lmax}}/{x}{c.d} [{nb_make/x*100:6.2f} %]")
+
+	else:
+
+		print(f"Training {params['f']} > {s} : {c.r}{c.tu}{c.ti}Not exist ...{c.d}")
 
 
 
