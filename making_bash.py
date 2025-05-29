@@ -203,6 +203,7 @@ if __name__ == "__main__":
 		epoch=<num_epoch>
 		lr=<lr1>,<lr2> ...
 		loss=<loss1>,<loss2> ...
+		load=<load1>,<load2> ...
 		"""
 
 		device = "gpu"
@@ -211,6 +212,8 @@ if __name__ == "__main__":
 		lrs = args["lr"].split(",")
 		losses = args["loss"].split(",")
 		batch_name = "training_model"
+
+		loads = None if "load" not in args.keys() else args["load"].split(",")
 
 
 		# Train folder verification
@@ -242,8 +245,16 @@ if __name__ == "__main__":
 
 						for loss in losses:
 
-							codes.append(f"Spec2vecModels/train_models.py model={model_name} train={train} valid={args['valid']} epoch={args['epoch']} lr={lr} loss={loss}")
-							batch_names.append(f"{batch_name}_{model_name}_{loss}_{train}_{lr}")
+							if loads is None:
+
+								codes.append(f"Spec2vecModels/train_models.py model={model_name} train={train} valid={args['valid']} epoch={args['epoch']} lr={lr} loss={loss}")
+								batch_names.append(f"{batch_name}_{model_name}_{loss}_{train}_{lr}")
+
+							else:
+
+								for load in loads:
+									codes.append(f"Spec2vecModels/train_models.py model={model_name} train={train} valid={args['valid']} epoch={args['epoch']} lr={lr} loss={loss} load={load}")
+									batch_names.append(f"{batch_name}_{model_name}_{loss}_{train}_{lr}_{load}")
 
 			else:
 
