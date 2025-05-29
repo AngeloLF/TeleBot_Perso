@@ -98,6 +98,6 @@ def get_color(nb_make, nb_total):
 
 if __name__ == "__main__":
 
-	shs = [file for file in os.listdir() if file[-3:] == ".sh"]
+	shs = [file for file in os.listdir() if file[-3:] == ".sh"] + [file for file in os.listdir() if file[-3:] == ".slurm"]
 
 	for sh in shs : extraction(sh)
