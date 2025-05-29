@@ -47,12 +47,12 @@ def inspect_training(params):
 
 	model_name = f"{params['model']}_{params['loss']}"
 	train_name = f"{params['train']}_{LR}"
-	load_name = "" if not 'load' in params.keys() else f"_{params['load']}"
+	load_name = "" if not 'load' in params.keys() else f"{params['load']}_"
 	epoch = int(params['epoch'])
 
-	nb_make = len(os.listdir(f"./results/Spec2vecModels_Results/{model_name}/epoch/{train_name}{load_name}"))
+	nb_make = len(os.listdir(f"./results/Spec2vecModels_Results/{model_name}/epoch/{load_name}{train_name}"))
 
-	print(f"Training {model_name} with {train_name}{load_name} : {nb_make}/{epoch} [{nb_make/epoch*100:.2f} %]")
+	print(f"Training {model_name} with {load_name}{train_name} : {nb_make}/{epoch} [{nb_make/epoch*100:.2f} %]")
 
 
 
