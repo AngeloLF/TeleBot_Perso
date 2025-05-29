@@ -45,9 +45,18 @@ def inspect_training(params):
 
 	LR = f"{float(params['lr']):.0e}"
 
+	if "load" in params.keys():
+
+		pre_train, pre_lr = params['load'].split('_')
+		pre_LR = f"{float(pre_lr):.0e}"
+		load_name = f"{pre_train}_{pre_LR}_"
+
+	else:
+
+		load_name = ""
+
 	model_name = f"{params['model']}_{params['loss']}"
 	train_name = f"{params['train']}_{LR}"
-	load_name = "" if not 'load' in params.keys() else f"{params['load']}_"
 	epoch = int(params['epoch'])
 
 	nb_make = len(os.listdir(f"./results/Spec2vecModels_Results/{model_name}/epoch/{load_name}{train_name}"))
