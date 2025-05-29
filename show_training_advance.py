@@ -107,8 +107,9 @@ def get_color(nb_make, nb_total):
 
 if __name__ == "__main__":
 
-	debug = True if sys.argv[1] == 'debug' else False
+	if len(sys.argv) > 1:
+		debug = True if sys.argv[1] == 'debug' else False
 
-	shs = [file for file in os.listdir() if file[-3:] == ".sh"] + [file for file in os.listdir() if file[-3:] == ".slurm"]
+	shs = [file for file in os.listdir() if file[-3:] == ".sh"] + [file for file in os.listdir() if file[-6:] == ".slurm"]
 
 	for sh in shs : extraction(sh, debug)
