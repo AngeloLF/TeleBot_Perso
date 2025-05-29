@@ -24,7 +24,7 @@ def extraction_code(code):
 
 
 
-def extraction(sh, what):
+def extraction(sh):
 
 	with open(sh, "r") as f:
 
@@ -36,7 +36,8 @@ def extraction(sh, what):
 
 				params = extraction_code(line)
 
-				if what == "training" : inspect_training(params)
+				if "train_models" in line : inspect_training(params)
+				if "alfsimu" in line : inspect_simu(params)
 
 
 
@@ -62,24 +63,41 @@ def inspect_training(params):
 	nb_make = len(os.listdir(f"./results/Spec2vecModels_Results/{model_name}/epoch/{load_name}{train_name}"))
 	lmax = len(str(epoch))
 
-	if   nb_make == epoch : color = c.lg
-	elif nb_make > epoch * 0.8 : color = c.ly
-	elif nb_make > 0 : color = c.lr
-	else : color = c.lk
+	color = get_color(nb_make, epoch)
 
 	print(f"Training {model_name} with {load_name}{train_name} : {color}{nb_make:{lmax}}/{epoch}{c.d} [{nb_make/epoch*100:6.2f} %]")
 
 
 
+def inspect_simu(params):
 
+	path = f"./results/output_simu/{params['f']}"
+	nb_make = len(os.listdir(f"{path}/image"))
+
+	for param in params:
+
+		if param[0] == "x" : x = int(param[1:])
+		if param[:3] == "set" : s = param
+
+	color = get_color(nb_make, x)
+
+	print(f"Simulator {params['f']} : {s} : {color}{nb_make:{lmax}}/{x}{c.d} [{nb_make/x*100:6.2f} %]")
+
+
+
+def get_color(nb_make, nb_total):
+
+	if   nb_make == nb_total : color = c.lg
+	elif nb_make > nb_total * 0.8 : color = c.ly
+	elif nb_make > 0 : color = c.lr
+	else : color = c.lk
+
+	return color
 
 
 
 if __name__ == "__main__":
 
-
-	what = sys.argv[1]
-
 	shs = [file for file in os.listdir() if file[-3:] == ".sh"]
 
-	for sh in shs : extraction(sh, what)
+	for sh in shs : extraction(sh)
