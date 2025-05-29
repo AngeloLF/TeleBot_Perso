@@ -89,6 +89,7 @@ def inspect_simu(params):
 		if param[:3] == "set" : s = param
 
 	color = get_color(nb_make, x)
+	lmax = len(str(x))
 
 	print(f"Simulator {params['f']} : {s} : {color}{nb_make:{lmax}}/{x}{c.d} [{nb_make/x*100:6.2f} %]")
 
@@ -109,6 +110,8 @@ if __name__ == "__main__":
 
 	if len(sys.argv) > 1:
 		debug = True if sys.argv[1] == 'debug' else False
+	else:
+		debug = False
 
 	shs = [file for file in os.listdir() if file[-3:] == ".sh"] + [file for file in os.listdir() if file[-6:] == ".slurm"]
 
