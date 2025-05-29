@@ -1,5 +1,5 @@
 import os, sys
-
+import coloralf as c
 
 
 
@@ -60,8 +60,14 @@ def inspect_training(params):
 	epoch = int(params['epoch'])
 
 	nb_make = len(os.listdir(f"./results/Spec2vecModels_Results/{model_name}/epoch/{load_name}{train_name}"))
+	lmax = len(str(epoch))
 
-	print(f"Training {model_name} with {load_name}{train_name} : {nb_make}/{epoch} [{nb_make/epoch*100:.2f} %]")
+	if   nb_make == epoch : color = c.lg
+	elif nb_make > epoch * 0.8 : color = c.ly
+	elif nb_make > 0 : color = c.lr
+	else : color = c.lk
+
+	print(f"Training {model_name} with {load_name}{train_name} : {color}{nb_make:{lmax}}/{epoch}{c.d} [{nb_make/epoch*100:6.2f} %]")
 
 
 
