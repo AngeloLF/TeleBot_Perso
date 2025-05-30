@@ -382,14 +382,14 @@ if __name__ == "__main__":
 
 								if loads is None:
 
-									codes.append(f"Spec2vecAnalyse/analyse_test.py model={model_name} train={train} test={test} loss={loss} lr={lr} score={score}")
+									codes.append(f"Spec2vecAnalyse/analyse_test.py model={model} train={train} test={test} loss={loss} lr={lr} score={score}")
 									batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}_{score}")
 
 								else:
 
 									for load in loads:
 
-										codes.append(f"Spec2vecAnalyse/analyse_test.py model={model_name} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
+										codes.append(f"Spec2vecAnalyse/analyse_test.py model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
 										batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}_{score}")
 
 	else :
