@@ -270,6 +270,7 @@ if __name__ == "__main__":
 		train=<folder_train>,<folder_train> ...
 		test=<folder_test1>,<folder_test2> ...
 		lr=<lr1>,<lr2> ...
+		load=<load1>,<load2> ...
 		"""
 
 		device = "gpu" if "gpu" in args.keys() else "cpu"
@@ -278,6 +279,8 @@ if __name__ == "__main__":
 		tests = args["test"].split(",")
 		lrs = args["lr"].split(",")
 		batch_name = "apply_model"
+
+		loads = None if "load" not in args.keys() else args["load"].split(",")
 
 
 		# Train folder verification
@@ -301,16 +304,27 @@ if __name__ == "__main__":
 
 		for model_name in models_name:
 
-			if model_name in os.listdir(f"./results/Spec2vecModels_Results"):
+			if f"{model_name}.py" in os.listdir(f"./results/Spec2vecModels_Results/architecture"):
 
-				for lr in lrs:
+				for loss in losses:
 
-					for train in trains:
+					for lr in lrs:
 
-						for test in tests:
+						for train in trains:
 
-							codes.append(f"Spec2vecAnalyse/apply_model.py {device} model={model_name} train={train} test={test} lr={lr}")
-							batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}")
+							for test in tests:
+
+								if loads is None:
+
+									codes.append(f"Spec2vecAnalyse/apply_model.py model={model} loss={loss} train={train} test={test} lr={lr}")
+									batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{test}_{lr}")
+
+								else:
+									for load in loads:
+
+										codes.append(f"Spec2vecAnalyse/apply_model.py model={model} loss={loss} train={train} test={test} lr={lr} load={load}")
+										batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{test}_{lr}_{load}")
+
 
 			else:
 
