@@ -108,7 +108,41 @@ def inspect_simu(params):
 
 	else:
 
-		print(f"Training {params['f']} > {s} : {c.r}{c.tu}{c.ti}Not exist ...{c.d}")
+		print(f"Simulator {params['f']} > {s} : {c.r}{c.tu}{c.ti}Not exist ...{c.d}")
+
+
+
+def inspect_apply(params):
+
+	model, loss, train, lr = params['model'], params['loss'], params['train'], f"{float(params['lr']):.0e}"
+
+	if "load" in params.keys():
+
+		pre_train, pre_lr = params['load'].split('_')
+		pre_LR = f"{float(pre_lr):.0e}"
+		load_name = f"{pre_train}_{pre_LR}_"
+
+	else:
+
+		load_name = ""
+
+	path = f"./results/output_simu/{params['test']}"
+	pred_folder = f"pred_{model}_{loss}_{load_name}{train}_{lr}"
+
+	to_make = len(os.listdir(f"{path}/spectrum"))
+
+
+	if pred_folder in os.listdir(path):
+
+		nb_make = len(os.listdir(f"{path}/{pred_folder}"))
+		color = get_color(nb_make, to_make)
+		lmax = len(str(to_make))
+
+		print(f"Apply {model}_{loss} > {load_name}{train}_{lr} : {color}{nb_make:{lmax}}/{to_make}{c.d} [{nb_make/to_make*100:6.2f} %]")
+
+	else:
+
+		print(f"Apply {model}_{loss} > {load_name}{train}_{lr} : {c.r}{c.tu}{c.ti}Not exist ...{c.d}")
 
 
 
