@@ -138,11 +138,11 @@ def inspect_apply(params):
 		color = get_color(nb_make, to_make)
 		lmax = len(str(to_make))
 
-		print(f"Apply {model}_{loss} > {load_name}{train}_{lr} : {color}{nb_make:{lmax}}/{to_make}{c.d} [{nb_make/to_make*100:6.2f} %]")
+		print(f"Apply {model}_{loss} > {load_name}{train}_{lr} on {params['test']} : {color}{nb_make:{lmax}}/{to_make}{c.d} [{nb_make/to_make*100:6.2f} %]")
 
 	else:
 
-		print(f"Apply {model}_{loss} > {load_name}{train}_{lr} : {c.r}{c.tu}{c.ti}Not exist ...{c.d}")
+		print(f"Apply {model}_{loss} > {load_name}{train}_{lr} on {params['test']} : {c.r}{c.tu}{c.ti}Not exist ...{c.d}")
 
 
 
