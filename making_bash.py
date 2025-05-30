@@ -333,15 +333,20 @@ if __name__ == "__main__":
 		test=<folder_test1>,<folder_test2> ...
 		lr=<lr1>,<lr2> ...
 		score=<score1>,<score2> ...
+		load=<load1>,<load2> ...
+		loss = ...
 		"""
 
 		device = "cpu"
 		models_name = args["models"].split(",")
+		losses = args["loss"].split(",")
 		trains = args["train"].split(",")
 		tests = args["test"].split(",")
 		lrs = args["lr"].split(",")
 		scores = args["score"].split(",")
 		batch_name = "analyse_model"
+
+		loads = None if "load" not in args.keys() else args["load"].split(",")
 
 
 		# Train folder verification
@@ -363,9 +368,9 @@ if __name__ == "__main__":
 		# Add codes
 		codes = list()
 
-		for model_name in models_name:
+		for model in models_name:
 
-			if model_name in os.listdir(f"./results/Spec2vecModels_Results"):
+			for loss in losses:
 
 				for lr in lrs:
 
@@ -375,16 +380,17 @@ if __name__ == "__main__":
 
 							for score in scores:
 
-								codes.append(f"Spec2vecAnalyse/analyse_test.py model={model_name} train={train} test={test} lr={lr} score={score}")
-								batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}_{score}")
+								if loads is None:
 
-			else:
+									codes.append(f"Spec2vecAnalyse/analyse_test.py model={model_name} train={train} test={test} loss={loss} lr={lr} score={score}")
+									batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}_{score}")
 
-				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
-				print(f"{error}")
-				# raise Exception(error)
+								else:
 
+									for load in loads:
 
+										codes.append(f"Spec2vecAnalyse/analyse_test.py model={model_name} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
+										batch_names.append(f"{batch_name}_{model_name}_{train}_{test}_{lr}_{score}")
 
 	else :
 
