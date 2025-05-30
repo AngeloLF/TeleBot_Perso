@@ -267,6 +267,7 @@ if __name__ == "__main__":
 	elif batch == "apply":
 		"""
 		models=<model_name1>,<model_name2> ...
+		loss=<loss1>,<loss2> ...
 		train=<folder_train>,<folder_train> ...
 		test=<folder_test1>,<folder_test2> ...
 		lr=<lr1>,<lr2> ...
@@ -275,6 +276,7 @@ if __name__ == "__main__":
 
 		device = "gpu" if "gpu" in args.keys() else "cpu"
 		models_name = args["models"].split(",")
+		losses = args["loss"].split(",")
 		trains = args["train"].split(",")
 		tests = args["test"].split(",")
 		lrs = args["lr"].split(",")
@@ -304,33 +306,24 @@ if __name__ == "__main__":
 
 		for model_name in models_name:
 
-			if f"{model_name}.py" in os.listdir(f"./results/Spec2vecModels_Results/architecture"):
+			for loss in losses:
 
-				for loss in losses:
+				for lr in lrs:
 
-					for lr in lrs:
+					for train in trains:
 
-						for train in trains:
+						for test in tests:
 
-							for test in tests:
+							if loads is None:
 
-								if loads is None:
+								codes.append(f"Spec2vecAnalyse/apply_model.py model={model} loss={loss} train={train} test={test} lr={lr}")
+								batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{test}_{lr}")
 
-									codes.append(f"Spec2vecAnalyse/apply_model.py model={model} loss={loss} train={train} test={test} lr={lr}")
-									batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{test}_{lr}")
+							else:
+								for load in loads:
 
-								else:
-									for load in loads:
-
-										codes.append(f"Spec2vecAnalyse/apply_model.py model={model} loss={loss} train={train} test={test} lr={lr} load={load}")
-										batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{test}_{lr}_{load}")
-
-
-			else:
-
-				error = f"WARNING [making_batch.py] : for batch={batch}, model name `{model_name}` unknow"
-				print(f"{error}")
-				# raise Exception(error)
+									codes.append(f"Spec2vecAnalyse/apply_model.py model={model} loss={loss} train={train} test={test} lr={lr} load={load}")
+									batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{test}_{lr}_{load}")
 
 
 	elif batch == "analyse":
