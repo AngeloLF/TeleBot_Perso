@@ -45,6 +45,9 @@ def extraction(sh, debug):
 				elif "alfsimu" in line: 
 					if debug : print(f"{c.ti}alfsimu ...{c.d}")
 					inspect_simu(params)
+				elif "apply_model" in line:
+					if debug : print(f"{c.ti}apply_model ...{c.d}")
+					inspect_apply(params)
 				else:
 					if debug : print(f"{c.ti}Unknow ...{c.d}")
 
