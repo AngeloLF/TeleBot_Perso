@@ -390,7 +390,7 @@ if __name__ == "__main__":
 									for load in loads:
 
 										codes.append(f"Spec2vecAnalyse/analyse_test.py model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
-										batch_names.append(f"{batch_name}_{model}_{train}_{test}_{lr}_{score}")
+										batch_names.append(f"{batch_name}_{model}_{train}_{test}_{lr}_{score}_{load}")
 
 	else :
 
