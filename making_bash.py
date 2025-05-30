@@ -304,7 +304,7 @@ if __name__ == "__main__":
 		# Add codes
 		codes = list()
 
-		for model_name in models_name:
+		for model in models_name:
 
 			for loss in losses:
 
