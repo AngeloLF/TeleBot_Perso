@@ -160,7 +160,7 @@ if __name__ in "__main__":
 
 	args.discobot = True if "discobot" in dir(args) else False
 	args.mult = False if "nomult" in dir(args) else True
-	if "load" not in dir(args) : args.load = None
+	if "load" not in dir(args) : args.load = ["None"]
 	if "mem" not in dir(args) : args.mem = None
 
 
@@ -172,17 +172,52 @@ if __name__ in "__main__":
 
 		for ni, xi, si in zip(args.name, args.x, args.set):
 
-			if "output" not in ni:
+			if "output_test" != ni:
 				
 				codes.append(f"SpecSimulator/alfsimu.py x{xi} f={ni} si tsim")
 				batch_names.append(f"{batch}_{ni}")
 
 			else:
 
-				
+				codes.append(f"SpecSimulator/alfsimu.py x{xi} tsim v=0 lsp test")
+				batch_names.append(f"{batch_name}_output_test")
 
 
 	else:
+
+		for model in args.model:
+
+			# Check model
+			if f"{model}.py" not in os.listdir(f"./Spec2vecModels/architecture"):
+				raise Exception(f"The architecture model {model} unknow")
+
+
+			for loss in args.loss:
+
+
+				for train in args.train:
+
+					# Check train
+					if train not in os.listdir(f".results/output_simu"):
+						raise Exception(f"Train folder {train} not in ./results/output_simu")
+
+
+					for lr in args.lr:
+
+
+						for load in args.load:
+
+
+							if batch == "training":
+
+								codes.append(f"Spec2vecModels/train_models.py model={model} loss={loss} train={train} valid={args.valid} epoch={args.e} lr={lr}")
+								batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{lr}")
+
+							else:
+
+								for test in args.test:
+
+									pass
 
 
 
