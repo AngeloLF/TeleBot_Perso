@@ -151,7 +151,7 @@ if __name__ in "__main__":
 		"analyse"  : "Spec2vecAnalyse/analyse_test.py",
 	}
 
-	arg2split = ["model", "loss", "train", "test", "lr", "load", "x", "name", "set"]
+	arg2split = ["model", "loss", "train", "test", "lr", "load", "x", "name", "set", "score"]
 
 	batch, args = read_SYSargv(list(batch_codes.keys()), arg2split)
 
@@ -170,16 +170,18 @@ if __name__ in "__main__":
 
 	if batch == "simu":
 
+		device = "cpu"
+
 		for ni, xi, si in zip(args.name, args.x, args.set):
 
 			if "output_test" != ni:
 				
-				codes.append(f"SpecSimulator/alfsimu.py x{xi} f={ni} si tsim")
+				codes.append(f"{batch_codes['simu']} x{xi} f={ni} si tsim")
 				batch_names.append(f"{batch}_{ni}")
 
 			else:
 
-				codes.append(f"SpecSimulator/alfsimu.py x{xi} tsim v=0 lsp test")
+				codes.append(f"{batch_codes['simu']} x{xi} tsim v=0 lsp test")
 				batch_names.append(f"{batch_name}_output_test")
 
 
@@ -208,16 +210,58 @@ if __name__ in "__main__":
 						for load in args.load:
 
 
-							if batch == "training":
+							if batch == "training" and args.valid in os.listdir(f"./results/output_simu"):
 
-								codes.append(f"Spec2vecModels/train_models.py model={model} loss={loss} train={train} valid={args.valid} epoch={args.e} lr={lr}")
+								device = "gpu"
+
+								codes.append(f"{batch_codes['training']} model={model} loss={loss} train={train} valid={args.valid} epoch={args.e} lr={lr}")
 								batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{lr}")
+
+							elif args.valid not in os.listdir(f"./results/output_simu"):
+
+								# Check valid
+								raise Exception(f"Valid folder {args.valid} not in ./results/output_simu")
 
 							else:
 
 								for test in args.test:
 
-									pass # TODO
+									# Check test
+									if test not in os.listdir(f"./results/output_simu"):
+										raise Exception(f"Test folder {test} not in ./results/output_simu")
+
+
+									if batch == "apply":
+
+										device = "cpu"
+
+										codes.append(f"{batch_codes['apply']} model={model} loss={loss} train={train} test={test} lr={lr} load={load}")
+										batch_names.append(f"{batch_name}_{model}_{loss}_{train}_{test}_{lr}_{load}")
+
+									elif batch == "analyse":
+
+										device = "cpu"
+
+										for score in args.score:
+
+											codes.append(f"{batch_codes['analyse']} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
+											batch_names.append(f"{batch_name}_{model}_{train}_{test}_{lr}_{score}_{load}")
+
+
+
+	# Construction of SLURM file:
+
+	if not mult:
+
+		generate_batch(batch_name, codes, device, discobot=args.discobot, mem=args.mem)
+
+	else:
+
+		with open(f"{batch_name}.slurm", "w") as f:
+			for name, code in zip(batch_names, codes):
+				generate_batch(name, code, device, discobot=discobot, ext="sh", mem=args.mem)
+				f.write(f"sbatch {params.path}/{name}.sh\n")
+									
 
 
 
