@@ -58,7 +58,7 @@ def inspect_training(params):
 
 	LR = f"{float(params['lr']):.0e}"
 
-	if "load" in params.keys():
+	if "load" in params.keys() and params["load"] != "None":
 
 		pre_train, pre_lr = params['load'].split('_')
 		pre_LR = f"{float(pre_lr):.0e}"
