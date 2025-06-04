@@ -159,13 +159,13 @@ if __name__ in "__main__":
 
 
 	batch_codes = {
-		"simu"     : ["SpecSimulator/alfsimu.py",        ["x", "name", "set"]],
+		"simu"     : ["SpecSimulator/alfsimu.py",        ["x", "name", "set", "simup"]],
 		"training" : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
 		"apply"    : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
 		"analyse"  : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
 	}
 
-	arg2split = ["model", "loss", "train", "test", "lr", "load", "x", "name", "set", "score"]
+	arg2split = ["model", "loss", "train", "test", "lr", "load", "x", "name", "set", "score", "simup"]
 
 	batch, args = read_SYSargv(batch_codes, arg2split)
 
@@ -183,11 +183,11 @@ if __name__ in "__main__":
 
 		device = "cpu"
 
-		for ni, xi, si in zip(args.name, args.x, args.set):
+		for ni, xi, si, simupi in zip(args.name, args.x, args.set, args.simup):
 
 			if "output_test" != ni:
 				
-				codes.append(f"{batch_codes['simu'][0]} x{xi} f={ni} {si} tsim")
+				codes.append(f"{batch_codes['simu'][0]} x{xi} f={ni} {si} {simupi} tsim")
 				batch_names.append(f"{batch}_{ni}")
 
 			else:
