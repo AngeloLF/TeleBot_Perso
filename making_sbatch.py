@@ -226,7 +226,7 @@ if __name__ in "__main__":
 								device = "gpu"
 
 								codes.append(f"{batch_codes['training'][0]} model={model} loss={loss} train={train} valid={args.valid} epoch={args.e} lr={lr} load={load}")
-								batch_names.append(f"{batch}_{model}_{loss}_{train}_{lr}")
+								batch_names.append(f"{batch}_{model}_{loss}_{train}_{lr}_{load}")
 
 							elif batch == "training" and args.valid not in os.listdir(f"./results/output_simu"):
 
