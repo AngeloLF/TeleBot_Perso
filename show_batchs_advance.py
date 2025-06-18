@@ -94,8 +94,10 @@ def inspect_simu(params):
 
 	for param in params:
 
-		if param[0] == "x" : x = int(param[1:])
-		if param[:3] == "set" : s = param
+		if len(param) > 0:
+
+			if param[0] == "x" : x = int(param[1:])
+			if param[:3] == "set" : s = param
 
 
 	if params['f'] in os.listdir(f"./results/output_simu/"):
