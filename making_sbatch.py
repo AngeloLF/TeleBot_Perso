@@ -174,7 +174,7 @@ if __name__ in "__main__":
 	args.local = True if "local" in dir(args) else False
 	if "load" not in dir(args) : args.load = ["None"]
 	if "mem" not in dir(args) : args.mem = None
-	if "gd" not in dir(args) : args.gd = None
+	if "gd" not in dir(args) : args.gd = "v100"
 
 	batch_names = list()
 	codes = list()
