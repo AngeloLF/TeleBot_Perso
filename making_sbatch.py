@@ -4,7 +4,7 @@ import params
 
 
 
-def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, discobot=False, ext="slurm", mem=None, local=False, gpu_device="v100"):
+def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, discobot=False, ext="slurm", mem=None, local=False, gpu_device="v100", nbj="1"):
 
 	### ENTETE
 	if not local:
@@ -30,7 +30,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 
 		slurm.append(f"\n# Description de la taches")
 		slurm.append(f"#SBATCH --cpus-per-task=1        # Nombre de CPUs par tâche")
-		slurm.append(f"#SBATCH --time=1-00:00:00        # Limite de temps")
+		slurm.append(f"#SBATCH --time={nbj}-00:00:00        # Limite de temps")
 		slurm.append(f"#SBATCH --ntasks={ntasks}        # Nombre de tâches")
 		slurm.append(f"#SBATCH --mem={memcpu}        # Mémoire demandée")	
 
@@ -45,7 +45,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 		
 		slurm.append(f"\n# Description de la taches")
 		slurm.append(f"#SBATCH --cpus-per-task=5")
-		slurm.append(f"#SBATCH --time=1-00:00:00        # Limite de temps")
+		slurm.append(f"#SBATCH --time={nbj}-00:00:00        # Limite de temps")
 		slurm.append(f"#SBATCH --ntasks={ntasks}        # Nombre de tâches")
 		slurm.append(f"#SBATCH --mem={memgpu}        # Mémoire demandée")
 
@@ -175,6 +175,7 @@ if __name__ in "__main__":
 	if "load" not in dir(args) : args.load = ["None"]
 	if "mem" not in dir(args) : args.mem = None
 	if "gd" not in dir(args) : args.gd = "v100"
+	if "nbj" not in dir(args) : args.nbj = "1"
 
 	batch_names = list()
 	codes = list()
@@ -266,7 +267,7 @@ if __name__ in "__main__":
 	if not args.mult:
 
 		extsup = "slurm" if not args.local else "ps1"
-		generate_batch(batch, codes, device, discobot=args.discobot, mem=args.mem, ext=extsup, local=args.local, gpu_device=args.gd)
+		generate_batch(batch, codes, device, discobot=args.discobot, mem=args.mem, ext=extsup, local=args.local, gpu_device=args.gd, nbj=args.nbj)
 
 	else:
 
@@ -275,7 +276,7 @@ if __name__ in "__main__":
 
 		with open(f"{batch}.{extsup}", "w") as f:
 			for name, code in zip(batch_names, codes):
-				generate_batch(name, code, device, discobot=args.discobot, ext=ext, mem=args.mem, local=args.local, gpu_device=args.gd)
+				generate_batch(name, code, device, discobot=args.discobot, ext=ext, mem=args.mem, local=args.local, gpu_device=args.gd, nbj=args.nbj)
 				f.write(f"sbatch {params.path}/{name}.sh\n")
 									
 
