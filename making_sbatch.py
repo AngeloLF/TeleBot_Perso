@@ -4,7 +4,7 @@ import params
 
 
 
-def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, discobot=False, ext="slurm", mem=None, local=False):
+def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, discobot=False, ext="slurm", mem=None, local=False, gpu_device="v100"):
 
 	### ENTETE
 	if not local:
@@ -36,11 +36,11 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 
 	elif device == "gpu" and not local:
 
-		memgpu = "16G" if mem is None else f"{mem}G" 
+		memgpu = "16G" if mem is None else f"{mem}G"
 
 		slurm.append(f"\n# Description Partition")
 		slurm.append(f"#SBATCH --partition={params.partition_gpu}")
-		slurm.append(f"#SBATCH --gres=gpu:v100:1")
+		slurm.append(f"#SBATCH --gres=gpu:{gpu_device}:1")
 		slurm.append(f"#SBATCH --account={params.account}")
 		
 		slurm.append(f"\n# Description de la taches")
@@ -174,6 +174,7 @@ if __name__ in "__main__":
 	args.local = True if "local" in dir(args) else False
 	if "load" not in dir(args) : args.load = ["None"]
 	if "mem" not in dir(args) : args.mem = None
+	if "gd" not in dir(args) : args.gd = None
 
 	batch_names = list()
 	codes = list()
@@ -265,7 +266,7 @@ if __name__ in "__main__":
 	if not args.mult:
 
 		extsup = "slurm" if not args.local else "ps1"
-		generate_batch(batch, codes, device, discobot=args.discobot, mem=args.mem, ext=extsup, local=args.local)
+		generate_batch(batch, codes, device, discobot=args.discobot, mem=args.mem, ext=extsup, local=args.local, gpu_device=args.gd)
 
 	else:
 
@@ -274,7 +275,7 @@ if __name__ in "__main__":
 
 		with open(f"{batch}.{extsup}", "w") as f:
 			for name, code in zip(batch_names, codes):
-				generate_batch(name, code, device, discobot=args.discobot, ext=ext, mem=args.mem, local=args.local)
+				generate_batch(name, code, device, discobot=args.discobot, ext=ext, mem=args.mem, local=args.local, gpu_device=args.gd)
 				f.write(f"sbatch {params.path}/{name}.sh\n")
 									
 
