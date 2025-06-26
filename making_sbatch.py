@@ -159,7 +159,7 @@ if __name__ in "__main__":
 
 
 	batch_codes = {
-		"flash"    : ["None",                            ["name", "code"]],
+		"flash"    : ["None",                            ["jobname", "code"]],
 		"simu"     : ["SpecSimulator/alfsimu.py",        ["x", "name", "set", "simup"]],
 		"training" : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
 		"apply"    : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
@@ -189,7 +189,7 @@ if __name__ in "__main__":
 		device = "cpu"
 
 		codes.append(args.code)
-		batch_names.append(args.name)
+		batch_names.append(args.jobname)
 
 
 
