@@ -186,6 +186,8 @@ if __name__ in "__main__":
 
 	if batch == "flash":
 
+		device = "cpu"
+
 		codes.append(args.code)
 		batch_names.append(args.name)
 
