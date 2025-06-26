@@ -131,7 +131,7 @@ def read_SYSargv(batch_codes, arg2split):
 
 	for arg in argv:
 
-		if "=" in arg and ".py" not in arg:
+		if "=" in arg:
 
 			k, v = arg.split("=")
 
