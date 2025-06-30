@@ -199,7 +199,7 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 					load = "None"
 					pred_folder = f"pred_{model}_{loss}_{train}_{lr}"
 				elif subs.count("_") == 3:
-					train, lr, loadtrain, loadlr = subs.split("_")
+					loadtrain, loadlr, train, lr = subs.split("_")
 					load = f"{loadtrain}_{loadlr}"
 					pred_folder = f"pred_{model}_{loss}_{train}_{lr}_{load}"
 				else:
@@ -207,7 +207,9 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 				print(f"{c.ly}Analyseof : detect {subs} -> {train} > {lr} > {load}{c.d}")
 
-				for test in args.test:
+				for otest in args.test:
+
+					test = otest if "no0" not in train else f"{otest}no0"
 
 					if pred_folder in os.listdir(f"./results/output_simu/{test}"):
 						print(f"{c.lg}- Test {test} apply{c.d}")
