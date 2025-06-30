@@ -258,7 +258,7 @@ if __name__ in "__main__":
 		"training"  : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
 		"apply"     : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
 		"analyse"   : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
-		"findJob"   : ["None",                            ["modelwl", "test", "score"]] # Model with loss like `SCaM_chi2`
+		"findjob"   : ["None",                            ["modelwl", "test", "score"]] # Model with loss like `SCaM_chi2`
 	}
 
 	arg2split = ["model", "modelwl", "loss", "train", "test", "lr", "load", "x", "name", "set", "score", "simup"]
@@ -307,7 +307,7 @@ if __name__ in "__main__":
 
 
 
-	elif batch == "findJob" and args.findjob_choice == "apply":
+	elif batch == "findjob" and args.findjob_choice == "apply":
 
 		device = "cpu"
 
@@ -318,7 +318,7 @@ if __name__ in "__main__":
 
 
 
-	elif batch == "findJob" and args.findjob_choice == "analyse":
+	elif batch == "findjob" and args.findjob_choice == "analyse":
 
 		device = "cpu"
 
@@ -329,7 +329,7 @@ if __name__ in "__main__":
 
 
 
-	elif batch == "findJob":
+	elif batch == "findjob":
 
 		make_jobs = False
 
