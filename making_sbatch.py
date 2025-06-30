@@ -264,7 +264,7 @@ if __name__ in "__main__":
 	arg2split = ["model", "modelwl", "loss", "train", "test", "lr", "load", "x", "name", "set", "score", "simup"]
 
 	batch, args = read_SYSargv(batch_codes, arg2split)
-	if batch == "findJob" : args = findJob(args)
+	if batch == "findjob" : args = findJob(args)
 
 	args.discobot = True if "discobot" in dir(args) else False
 	args.mult = False if "nomult" in dir(args) else True
