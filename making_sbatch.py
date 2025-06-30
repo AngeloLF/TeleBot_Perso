@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 import os, sys
 import params
-
+import coloralf as c
 
 
 def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, discobot=False, ext="slurm", mem=None, local=False, gpu_device="v100", nbj="1"):
@@ -154,21 +154,117 @@ def read_SYSargv(batch_codes, arg2split):
 
 
 
+def addJob2args(ARGS, model, loss, train, lr, load, test, score=None):
+
+	ARGS.list_model.append(model)
+	ARGS.list_loss.append(loss)
+	ARGS.list_train.append(train)
+	ARGS.list_lr.append(lr)
+	ARGS.list_load.append(load)
+	ARGS.list_test.append(test)
+	if score is not None : ARGS.list_score.append(score)
+	
+	return ARGS
+
+
+def findJob(args, states_path="./results/Spec2vecModels_Results"):
+
+	ARGS_APPLY = SimpleNamespace()
+	ARGS_ANALYSE = SimpleNamespace()
+
+	for ARGS in [ARGS_APPLY, ARGS_ANALYSE]:
+
+		ARGS.list_model = list()
+		ARGS.list_loss = list()
+		ARGS.list_train = list()
+		ARGS.list_lr = list()
+		ARGS.list_load = list()
+		ARGS.list_test = list()
+		ARGS.list_score = list()
+
+
+	for modelwl in args.modelwl:
+		
+		model, loss = modelwl.split("_")
+		print(f"\n{c.y}Analyseof model {model} [{loss}]{c.d}")
+
+		for state in os.listdir(f"{states_path}/{modelwl}/states"):
+
+			if "_best.pth" in state:
+
+				subs = state[:-9]
+					
+				if subs.count("_") == 1: 
+					train, lr = subs.split("_")
+					load = "None"
+					pred_folder = f"pred_{model}_{loss}_{train}_{lr}"
+				elif subs.count("_") == 3:
+					train, lr, loadtrain, loadlr = subs.split("_")
+					load = f"{loadtrain}_{loadlr}"
+					pred_folder = f"pred_{model}_{loss}_{train}_{lr}_{load}"
+				else:
+					raise Exception(f"WARNING [making_sbatch.py] : State {state} counts `_` not in [1, 3]")
+
+				print(f"{c.ly}Analyseof : detect {subs} -> {train} > {lr} > {load}{c.d}")
+
+				for test in args.test:
+
+					if pred_folder in os.listdir(f"./results/output_simu/{test}"):
+						print(f"{c.lg}- Test {test} apply{c.d}")
+
+						for score in args.score:
+
+							if pred_folder in os.listdir(f"./results/analyse/{score}") and test in os.listdir(f"./results/analyse/{score}/{pred_folder}"):
+								print(f"{c.lg}  |-- score {score} analyse{c.d}")
+							else:
+								print(f"{c.lr}  |-- score {score} not analyse{c.d}")
+								ARGS_ANALYSE = addJob2args(ARGS_ANALYSE, model, loss, train, lr, load, test, score)
+
+
+					else:
+						print(f"{c.r}- Test {test} not apply{c.d}")
+						ARGS_APPLY = addJob2args(ARGS_APPLY, model, loss, train, lr, load, test)
+
+
+
+	choice = None
+
+	while choice not in ["", "analyse", "apply"]:
+
+		choice = input(f"Make anything ? (an/analyse or ap/apply) : ")
+
+		if choice in ["an", "analyse"] : choice = "analyse"
+		elif choice in ["ap", "apply"] : choice = "apply" 
+
+	args.ARGS_APPLY = ARGS_APPLY
+	args.ARGS_ANALYSE = ARGS_ANALYSE
+	args.findjob_choice = choice
+
+	return args
+
+
+
+
+
+
+
 
 if __name__ in "__main__":
 
 
 	batch_codes = {
-		"flash"    : ["None",                            ["jobname", "code"]],
-		"simu"     : ["SpecSimulator/alfsimu.py",        ["x", "name", "set", "simup"]],
-		"training" : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
-		"apply"    : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
-		"analyse"  : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
+		"flash"     : ["None",                            ["jobname", "code"]],
+		"simu"      : ["SpecSimulator/alfsimu.py",        ["x", "name", "set", "simup"]],
+		"training"  : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
+		"apply"     : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
+		"analyse"   : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
+		"findJob"   : ["None",                            ["modelwl", "test", "score"]] # Model with loss like `SCaM_chi2`
 	}
 
-	arg2split = ["model", "loss", "train", "test", "lr", "load", "x", "name", "set", "score", "simup"]
+	arg2split = ["model", "modelwl", "loss", "train", "test", "lr", "load", "x", "name", "set", "score", "simup"]
 
 	batch, args = read_SYSargv(batch_codes, arg2split)
+	if batch == "findJob" : args = findJob(args)
 
 	args.discobot = True if "discobot" in dir(args) else False
 	args.mult = False if "nomult" in dir(args) else True
@@ -180,7 +276,7 @@ if __name__ in "__main__":
 
 	batch_names = list()
 	codes = list()
-
+	make_jobs = True
 
 
 
@@ -208,6 +304,35 @@ if __name__ in "__main__":
 
 				codes.append(f"{batch_codes['simu'][0]} x{xi} tsim v=0 lsp test")
 				batch_names.append(f"{batch_name}_output_test")
+
+
+
+	elif batch == "findJob" and args.findjob_choice == "apply":
+
+		device = "cpu"
+
+		for model, loss, train, lr, load, test in zip(args.ARGS_APPLY.list_model, args.ARGS_APPLY.list_loss, args.ARGS_APPLY.list_train, args.ARGS_APPLY.list_lr, args.ARGS_APPLY.list_load, args.ARGS_APPLY.list_test):
+
+			codes.append(f"{batch_codes['apply'][0]} model={model} loss={loss} train={train} test={test} lr={lr} load={load}")
+			batch_names.append(f"apply_{model}_{loss}_{train}_{test}_{lr}_{load}")
+
+
+
+	elif batch == "findJob" and args.findjob_choice == "analyse":
+
+		device = "cpu"
+
+		for model, loss, train, lr, load, test, score in zip(args.ARGS_ANALYSE.list_model, args.ARGS_ANALYSE.list_loss, args.ARGS_ANALYSE.list_train, args.ARGS_ANALYSE.list_lr, args.ARGS_ANALYSE.list_load, args.ARGS_ANALYSE.list_test, args.ARGS_ANALYSE.list_score):
+		
+			codes.append(f"{batch_codes['analyse'][0]} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
+			batch_names.append(f"{batch}_{model}_{train}_{test}_{lr}_{score}_{load}")
+
+
+
+	elif batch == "findJob":
+
+		make_jobs = False
+
 
 
 	else:
@@ -276,20 +401,22 @@ if __name__ in "__main__":
 
 	# Construction of SLURM file:
 
-	if not args.mult:
+	if make_jobs:
 
-		extsup = "slurm" if not args.local else "ps1"
-		generate_batch(batch, codes, device, discobot=args.discobot, mem=args.mem, ext=extsup, local=args.local, gpu_device=args.gd, nbj=args.nbj)
+		if not args.mult:
 
-	else:
+			extsup = "slurm" if not args.local else "ps1"
+			generate_batch(batch, codes, device, discobot=args.discobot, mem=args.mem, ext=extsup, local=args.local, gpu_device=args.gd, nbj=args.nbj)
 
-		extsup = "slurm" if not args.local else "ps1"
-		ext = "sh" if not args.local else "ps1"
+		else:
 
-		with open(f"{batch}.{extsup}", "w") as f:
-			for name, code in zip(batch_names, codes):
-				generate_batch(name, code, device, discobot=args.discobot, ext=ext, mem=args.mem, local=args.local, gpu_device=args.gd, nbj=args.nbj)
-				f.write(f"sbatch {params.path}/{name}.sh\n")
+			extsup = "slurm" if not args.local else "ps1"
+			ext = "sh" if not args.local else "ps1"
+
+			with open(f"{batch}.{extsup}", "w") as f:
+				for name, code in zip(batch_names, codes):
+					generate_batch(name, code, device, discobot=args.discobot, ext=ext, mem=args.mem, local=args.local, gpu_device=args.gd, nbj=args.nbj)
+					f.write(f"sbatch {params.path}/{name}.sh\n")
 									
 
 
