@@ -201,7 +201,7 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 				elif subs.count("_") == 3:
 					loadtrain, loadlr, train, lr = subs.split("_")
 					load = f"{loadtrain}_{loadlr}"
-					pred_folder = f"pred_{model}_{loss}_{train}_{lr}_{load}"
+					pred_folder = f"pred_{model}_{loss}_{load}_{train}_{lr}"
 				else:
 					raise Exception(f"WARNING [making_sbatch.py] : State {state} counts `_` not in [1, 3]")
 
