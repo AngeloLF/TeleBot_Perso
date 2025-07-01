@@ -162,12 +162,17 @@ def addJob2args(ARGS, model, loss, train, lr, load, test, score=None):
 	ARGS.list_lr.append(lr)
 	ARGS.list_load.append(load)
 	ARGS.list_test.append(test)
+	ARGS.nb += 1
 	if score is not None : ARGS.list_score.append(score)
 	
 	return ARGS
 
 
 def findJob(args, states_path="./results/Spec2vecModels_Results"):
+
+	if "score" not in dir(args):
+		print(f"{c.ly}INFO : in findJob, score is not indicated -> def L1,chi2")
+		args.score = ["L1", "chi2"]
 
 	ARGS_APPLY = SimpleNamespace()
 	ARGS_ANALYSE = SimpleNamespace()
@@ -181,6 +186,7 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 		ARGS.list_load = list()
 		ARGS.list_test = list()
 		ARGS.list_score = list()
+		ARGS.nb = 0
 
 
 	for modelwl in args.modelwl:
@@ -233,6 +239,8 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 	while choice not in ["", "analyse", "apply"]:
 
+		print(f"Number of job `apply`   : {ARGS_APPLY.nb}")
+		print(f"Number of job `analyse` : {ARGS_ANALYSE.nb}")
 		choice = input(f"Make anything ? (an/analyse or ap/apply) : ")
 
 		if choice in ["an", "analyse"] : choice = "analyse"
@@ -260,7 +268,7 @@ if __name__ in "__main__":
 		"training"  : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
 		"apply"     : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
 		"analyse"   : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
-		"findjob"   : ["None",                            ["modelwl", "test", "score"]] # Model with loss like `SCaM_chi2`
+		"findjob"   : ["None",                            ["modelwl", "test"]] # Model with loss like `SCaM_chi2`
 	}
 
 	arg2split = ["model", "modelwl", "loss", "train", "test", "lr", "load", "x", "name", "set", "score", "simup"]
