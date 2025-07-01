@@ -342,7 +342,7 @@ if __name__ in "__main__":
 		for model in args.model:
 
 			# Check model
-			if f"{model}.py" not in os.listdir(f"./Spec2vecModels/architecture"):
+			if f"{model}.py" not in os.listdir(f"./Spec2vecModels/architecture") and model != "Spectractor":
 				raise Exception(f"The architecture model {model} unknow")
 
 
@@ -352,7 +352,7 @@ if __name__ in "__main__":
 				for train in args.train:
 
 					# Check train
-					if train not in os.listdir(f"./results/output_simu"):
+					if train not in os.listdir(f"./results/output_simu") and model != "Spectractor":
 						raise Exception(f"Train folder {train} not in ./results/output_simu")
 
 
