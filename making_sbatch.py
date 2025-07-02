@@ -335,7 +335,7 @@ if __name__ in "__main__":
 		for model, loss, train, lr, load, test, score in zip(args.ARGS_ANALYSE.list_model, args.ARGS_ANALYSE.list_loss, args.ARGS_ANALYSE.list_train, args.ARGS_ANALYSE.list_lr, args.ARGS_ANALYSE.list_load, args.ARGS_ANALYSE.list_test, args.ARGS_ANALYSE.list_score):
 		
 			codes.append(f"{batch_codes['analyse'][0]} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
-			batch_names.append(f"analyse_{model}_{train}_{test}_{lr}_{score}_{load}")
+			batch_names.append(f"analyse_{model}_{loss}_{train}_{test}_{lr}_{score}_{load}")
 
 
 
@@ -405,7 +405,7 @@ if __name__ in "__main__":
 										for score in args.score:
 
 											codes.append(f"{batch_codes['analyse'][0]} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
-											batch_names.append(f"{batch}_{model}_{train}_{test}_{lr}_{score}_{load}")
+											batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{score}_{load}")
 
 
 
