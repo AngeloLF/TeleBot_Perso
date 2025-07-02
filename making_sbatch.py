@@ -222,7 +222,7 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 						for score in args.score:
 
-							if pred_folder in os.listdir(f"./results/analyse/{score}") and test in os.listdir(f"./results/analyse/{score}/{pred_folder}"):
+							if pred_folder in os.listdir(f"./results/analyse/{score}") and test in os.listdir(f"./results/analyse/{score}/{pred_folder}") and "resume.txt" in os.listdir(f"./results/analyse/{score}/{pred_folder}/{test}"):
 								print(f"{c.lg}  |-- score {score} analyse{c.d}")
 							else:
 								print(f"{c.lr}  |-- score {score} not analyse{c.d}")
