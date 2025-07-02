@@ -174,8 +174,13 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 		print(f"{c.ly}INFO : in findJob, score is not indicated -> def L1,chi2")
 		args.score = ["L1", "chi2"]
 
+	if "test" not in dir(args):
+		print(f"{c.ly}INFO : in findJob, test is not indicated -> def test1k,test1kOT,test1kExt")
+		args.test = ["test1k", "test1kOT", "test1kExt"]
+
 	ARGS_APPLY = SimpleNamespace()
 	ARGS_ANALYSE = SimpleNamespace()
+
 
 	for ARGS in [ARGS_APPLY, ARGS_ANALYSE]:
 
@@ -268,7 +273,7 @@ if __name__ in "__main__":
 		"training"  : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
 		"apply"     : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
 		"analyse"   : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
-		"findjob"   : ["None",                            ["modelwl", "test"]] # Model with loss like `SCaM_chi2`
+		"findjob"   : ["None",                            ["modelwl"]] # Model with loss like `SCaM_chi2`
 	}
 
 	arg2split = ["model", "modelwl", "loss", "train", "test", "lr", "load", "x", "name", "set", "score", "simup"]
