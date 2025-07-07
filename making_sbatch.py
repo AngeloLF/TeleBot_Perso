@@ -416,6 +416,8 @@ if __name__ in "__main__":
 
 	# Construction of SLURM file:
 
+	if "gpu" in sys.argv : device = "gpu"
+
 	if make_jobs:
 
 		if not args.mult:
