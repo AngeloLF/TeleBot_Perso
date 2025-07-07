@@ -398,9 +398,9 @@ if __name__ in "__main__":
 
 									if batch == "apply":
 
-										device = "cpu"
+										device = "cpu" if "gpu" not in sys.argv else "gpu"
 
-										codes.append(f"{batch_codes['apply'][0]} model={model} loss={loss} train={train} test={test} lr={lr} load={load}")
+										codes.append(f"{batch_codes['apply'][0]} model={model} loss={loss} train={train} test={test} lr={lr} load={load} {device}")
 										batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{load}")
 
 									elif batch == "analyse":
@@ -415,8 +415,6 @@ if __name__ in "__main__":
 
 
 	# Construction of SLURM file:
-
-	if "gpu" in sys.argv : device = "gpu"
 
 	if make_jobs:
 
