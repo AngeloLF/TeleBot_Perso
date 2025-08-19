@@ -243,7 +243,7 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 	choice = None
 
-	while choice not in ["", "analyse", "apply"]:
+	while choice not in ["", "analyse", "apply", "analyseFOPA"]:
 
 		print(f"Number of job `apply`   : {ARGS_APPLY.nb}")
 		print(f"Number of job `analyse` : {ARGS_ANALYSE.nb}")
