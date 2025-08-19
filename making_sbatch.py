@@ -221,13 +221,14 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 				for otest in args.test:
 
 					test = otest if "no0" not in train else f"{otest}no0"
+					if test == "testAtmo1k" and "2Atmo" in train : test = "test2Atmo1k"
 
 					if pred_folder in os.listdir(f"./results/output_simu/{test}"):
 						print(f"{c.lg}- Test {test} apply{c.d}")
 
 						for score in args.score:
 
-							if pred_folder in os.listdir(f"./results/analyse/{score}") and test in os.listdir(f"./results/analyse/{score}/{pred_folder}") and "resume.txt" in os.listdir(f"./results/analyse/{score}/{pred_folder}/{test}"):
+							if pred_folder in os.listdir(f"./results/analyse/{score}") and test in os.listdir(f"./results/analyse/{score}/{pred_folder}") and ("resume.txt" in os.listdir(f"./results/analyse/{score}/{pred_folder}/{test}") or "resume.json" in os.listdir(f"./results/analyse/{score}/{pred_folder}/{test}"))  :
 								print(f"{c.lg}  |-- score {score} analyse{c.d}")
 							else:
 								print(f"{c.lr}  |-- score {score} not analyse{c.d}")
