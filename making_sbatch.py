@@ -247,10 +247,11 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 		print(f"Number of job `apply`   : {ARGS_APPLY.nb}")
 		print(f"Number of job `analyse` : {ARGS_ANALYSE.nb}")
-		choice = input(f"Make anything ? (an/analyse or ap/apply) : ")
+		choice = input(f"Make anything ? (an/analyse or ap/apply or anfopa/analyseFOPA) : ")
 
 		if choice in ["an", "analyse"] : choice = "analyse"
 		elif choice in ["ap", "apply"] : choice = "apply" 
+		elif choice in ["anfopa", "anamyseFOPA"] : choise = "analyseFOPA"
 
 	args.ARGS_APPLY = ARGS_APPLY
 	args.ARGS_ANALYSE = ARGS_ANALYSE
@@ -342,6 +343,17 @@ if __name__ in "__main__":
 		for model, loss, train, lr, load, test, score in zip(args.ARGS_ANALYSE.list_model, args.ARGS_ANALYSE.list_loss, args.ARGS_ANALYSE.list_train, args.ARGS_ANALYSE.list_lr, args.ARGS_ANALYSE.list_load, args.ARGS_ANALYSE.list_test, args.ARGS_ANALYSE.list_score):
 		
 			codes.append(f"{batch_codes['analyse'][0]} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
+			batch_names.append(f"analyse_{model}_{loss}_{train}_{test}_{lr}_{score}_{load}")
+
+
+
+	elif batch == "findjob" and args.findjob_choice == "analyseFOPA":
+
+		device = "cpu"
+
+		for model, loss, train, lr, load, test, score in zip(args.ARGS_ANALYSE.list_model, args.ARGS_ANALYSE.list_loss, args.ARGS_ANALYSE.list_train, args.ARGS_ANALYSE.list_lr, args.ARGS_ANALYSE.list_load, args.ARGS_ANALYSE.list_test, args.ARGS_ANALYSE.list_score):
+		
+			codes.append(f"{batch_codes['analyseFOPA'][0]} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
 			batch_names.append(f"analyse_{model}_{loss}_{train}_{test}_{lr}_{score}_{load}")
 
 
