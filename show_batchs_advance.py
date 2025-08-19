@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, time
 import coloralf as c
 
 
@@ -160,6 +160,8 @@ def get_color(nb_make, nb_total):
 
 
 if __name__ == "__main__":
+
+	print(f"TIME : {c.m}{c.ti}{time.ctime()}{c.d}")
 
 	if len(sys.argv) > 1:
 		debug = True if sys.argv[1] == 'debug' else False

@@ -268,12 +268,13 @@ if __name__ in "__main__":
 
 
 	batch_codes = {
-		"flash"     : ["None",                            ["jobname", "code"]],
-		"simu"      : ["SpecSimulator/alfsimu.py",        ["x", "name", "set", "simup"]],
-		"training"  : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
-		"apply"     : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
-		"analyse"   : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
-		"findjob"   : ["None",                            ["modelwl"]] # Model with loss like `SCaM_chi2`
+		"flash"       : ["None",                            ["jobname", "code"]],
+		"simu"        : ["SpecSimulator/alfsimu.py",        ["x", "name", "set", "simup"]],
+		"training"    : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
+		"apply"       : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
+		"analyse"     : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
+		"analyseFOPA" : ["Spec2vecAnalyse/analyse_FOPA.py", ["model", "loss", "train", "lr", "test", "score"]],
+		"findjob"     : ["None",                            ["modelwl"]] # Model with loss like `SCaM_chi2`
 	}
 
 	arg2split = ["model", "modelwl", "loss", "train", "test", "lr", "load", "x", "name", "set", "score", "simup"]
@@ -410,6 +411,15 @@ if __name__ in "__main__":
 										for score in args.score:
 
 											codes.append(f"{batch_codes['analyse'][0]} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
+											batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{score}_{load}")
+
+									elif batch == "analyseFOPA":
+
+										device = "cpu"
+
+										for score in args.score:
+
+											codes.append(f"{batch_codes['analyseFOPA'][0]} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
 											batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{score}_{load}")
 
 
