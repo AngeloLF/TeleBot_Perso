@@ -251,7 +251,7 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 		if choice in ["an", "analyse"] : choice = "analyse"
 		elif choice in ["ap", "apply"] : choice = "apply" 
-		elif choice in ["anfopa", "anamyseFOPA"] : choise = "analyseFOPA"
+		elif choice in ["anfopa", "anamyseFOPA"] : choice = "analyseFOPA"
 
 	args.ARGS_APPLY = ARGS_APPLY
 	args.ARGS_ANALYSE = ARGS_ANALYSE
