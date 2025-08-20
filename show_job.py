@@ -177,6 +177,26 @@ def get_color(nb_make, nb_total):
 	return color
 
 
+def countingColor(pcs):
+
+	# Not exist
+	x = np.sum(pcs < 0)
+	print(f"Total {c.r}{c.tu}{c.ti}Not exist{c.d} : {x}")
+
+	x0 = np.sum(pcs == 0.0)
+	print(           f"Total {c.lk}0 %{c.d}       : {x0}")
+
+	xMide = np.sum((pcs > 0.0) & (pcs <= 80.0))
+	print(           f"Total {c.lr}< 80 %{c.d}    : {xMide}")
+
+	x80 = np.sum((pcs > 80.0) & (pcs < 100.0))
+	print(           f"Total {c.ly}> 80 %{c.d}    : {x80}")
+
+	x100 = np.sum(pcs == 100.0)
+	print(           f"Total {c.lg}Finish{c.d}    : {x100}")
+
+
+
 
 if __name__ == "__main__":
 
@@ -216,3 +236,6 @@ if __name__ == "__main__":
 	for asort in argsort:
 
 		print(labels[asort])
+
+	print(f"")
+	countingColor(np.array(advanc))
