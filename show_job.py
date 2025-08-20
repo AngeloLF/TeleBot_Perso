@@ -201,7 +201,7 @@ if __name__ == "__main__":
 			advanc.append(extract[1])
 			typesj.append(extract[2])
 
-	if len(sys.argv) > 1 and sys.argv[1] == "type" : argsort = np.argsort(typesj, advanc)
+	if len(sys.argv) > 1 and sys.argv[1] == "type" : argsort = np.lexsort((advanc, typesj))
 	else : argsort = np.argsort(advanc)
 
 
