@@ -197,13 +197,21 @@ if __name__ == "__main__":
 		extract = extraction(sh, debug)
 		
 		if extract is not None:
-			labels.append(extract[0])
-			advanc.append(extract[1])
-			typesj.append(extract[2])
 
-	if len(sys.argv) > 1 and sys.argv[1] == "type" : argsort = np.lexsort((advanc, typesj))
+			if "nf" in sys.argv and extract[1] >= 100.0
+
+				pass #skip
+
+			else:
+				
+				labels.append(extract[0])
+				advanc.append(extract[1])
+				typesj.append(extract[2])
+
+	if "type" in sys.argv : argsort = np.lexsort((advanc, typesj))
 	else : argsort = np.argsort(advanc)
 
+	
 
 	for asort in argsort:
 
