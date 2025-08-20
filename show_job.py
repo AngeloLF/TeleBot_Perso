@@ -198,12 +198,12 @@ if __name__ == "__main__":
 		
 		if extract is not None:
 
-			if "nf" in sys.argv and extract[1] >= 100.0
+			if "nf" in sys.argv and extract[1] >= 100.0:
 
 				pass #skip
 
 			else:
-				
+
 				labels.append(extract[0])
 				advanc.append(extract[1])
 				typesj.append(extract[2])
