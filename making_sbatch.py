@@ -204,7 +204,10 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 		ARGS.nb = 0
 
 
-	for modelwl in args.modelwl:
+	allModelWL = list(set(args.modelwl))
+
+
+	for modelwl in allModelWL:
 		
 		model, loss = modelwl.split("_")
 		print(f"\n{c.y}Analyseof model {model} [{loss}]{c.d}")
