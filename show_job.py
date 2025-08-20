@@ -177,7 +177,7 @@ def get_color(nb_make, nb_total):
 	return color
 
 
-def countingColor(pcs):
+def countingColor(pcs, c100=0):
 
 	# Not exist
 	x = np.sum(pcs < 0)
@@ -192,7 +192,7 @@ def countingColor(pcs):
 	x80 = np.sum((pcs > 80.0) & (pcs < 100.0))
 	print(           f"Total {c.ly}> 80 %{c.d}    : {x80}")
 
-	x100 = np.sum(pcs == 100.0)
+	x100 = np.sum(pcs == 100.0) + c100
 	print(           f"Total {c.lg}Finish{c.d}    : {x100}")
 
 
@@ -213,6 +213,8 @@ if __name__ == "__main__":
 	advanc = list()
 	typesj = list()
 
+	c100 = 0
+
 	for sh in shs :
 		extract = extraction(sh, debug)
 		
@@ -220,7 +222,7 @@ if __name__ == "__main__":
 
 			if "nf" in sys.argv and extract[1] >= 100.0:
 
-				pass #skip
+				c100 += 1
 
 			else:
 
@@ -238,4 +240,4 @@ if __name__ == "__main__":
 		print(labels[asort])
 
 	print(f"")
-	countingColor(np.array(advanc))
+	countingColor(np.array(advanc), c100=c100)
