@@ -172,8 +172,8 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 	if "score" not in dir(args):
 
-		if "FOPA" in args.modelwl[0]:
-			print(f"{c.ly}INFO : in findJob, score is not indicated (but FOPA detected) -> def sfopa")
+		if "FOPA" in args.modelwl[0] or "FOBIQ" in args.modelwl[0]:
+			print(f"{c.ly}INFO : in findJob, score is not indicated (but FOPA/FOBIQ detected) -> def sfopa")
 			args.score = ["sfopa"]
 		else:
 			print(f"{c.ly}INFO : in findJob, score is not indicated -> def L1,chi2")
@@ -181,8 +181,8 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 	if "test" not in dir(args):
 
-		if "FOPA" in args.modelwl[0]:
-			print(f"{c.ly}INFO : in findJob, test is not indicated (but FOPA detected) -> def testAtmo1k")
+		if "FOPA" in args.modelwl[0] or "FOBIQ" in args.modelwl[0]:
+			print(f"{c.ly}INFO : in findJob, test is not indicated (but FOPA/FOBIQ detected) -> def testAtmo1k")
 			args.test = ["testAtmo1k"]
 		else:
 			print(f"{c.ly}INFO : in findJob, test is not indicated -> def test1k,test1kOT,test1kExt")
