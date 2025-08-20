@@ -194,10 +194,12 @@ if __name__ == "__main__":
 	typesj = list()
 
 	for sh in shs :
-		l, a, t = extraction(sh, debug)
-		labels.append(l)
-		advanc.append(a)
-		typesj.append(t)
+		extract = extraction(sh, debug)
+		
+		if extract is not None:
+			labels.append(extract[0])
+			advanc.append(extract[1])
+			typesj.append(extract[2])
 
 	if len(sys.argv) > 1 and sys.argv[1] == "type" : argsort = np.argsort(typesj, advanc)
 	else : argsort = np.argsort(advanc)
