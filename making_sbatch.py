@@ -260,11 +260,12 @@ def findJob(args, states_path="./results/Spec2vecModels_Results"):
 
 		print(f"Number of job `apply`   : {ARGS_APPLY.nb}")
 		print(f"Number of job `analyse` : {ARGS_ANALYSE.nb}")
-		choice = input(f"Make anything ? (an/analyse or ap/apply or anfopa/analyseFOPA) : ")
+		choice = input(f"Make anything ? (an/analyse or ap/apply) : ")
 
 		if choice in ["an", "analyse"] : choice = "analyse"
 		elif choice in ["ap", "apply"] : choice = "apply" 
-		elif choice in ["anfopa", "anamyseFOPA"] : choice = "analyseFOPA"
+
+	if "FOPA" in args.modelwl[0] or "FOBIQ" in args.modelwl[0] and choice == "analyse" : choice = "analyseFOPA"
 
 	args.ARGS_APPLY = ARGS_APPLY
 	args.ARGS_ANALYSE = ARGS_ANALYSE
