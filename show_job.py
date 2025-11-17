@@ -42,7 +42,7 @@ def extraction(sh, debug):
 				if "train_models" in line: 
 					if debug : print(f"{c.ti}train_models ...{c.d}")
 					return inspect_training(params)
-				elif "alfsimu" in line: 
+				elif "main_simu" in line: 
 					if debug : print(f"{c.ti}alfsimu ...{c.d}")
 					return inspect_simu(params)
 				elif "apply_model" in line:
