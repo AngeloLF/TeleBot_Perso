@@ -109,7 +109,7 @@ def inspect_simu(params):
 	# 		if param[:3] == "set" : s = param[4:]
 
 	x = int(params["nsimu"])
-	s = param["set"]
+	s = params["set"]
 
 
 	if params['f'] in os.listdir(f"./results/output_simu/"):
