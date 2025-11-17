@@ -43,7 +43,7 @@ def extraction(sh, debug):
 					if debug : print(f"{c.ti}train_models ...{c.d}")
 					return inspect_training(params)
 				elif "main_simu" in line: 
-					if debug : print(f"{c.ti}alfsimu ...{c.d}")
+					if debug : print(f"{c.ti}main_simu ...{c.d}")
 					return inspect_simu(params)
 				elif "apply_model" in line:
 					if debug : print(f"{c.ti}apply_model ...{c.d}")
@@ -103,8 +103,8 @@ def inspect_simu(params):
 
 		if len(param) > 0:
 
-			if param[0] == "x" : x = int(param[1:])
-			if param[:3] == "set" : s = param
+			if param[:5] == "nsimu" : x = int(param[6:])
+			if param[:3] == "set" : s = param[4:]
 
 
 	if params['f'] in os.listdir(f"./results/output_simu/"):
