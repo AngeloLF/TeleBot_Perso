@@ -326,16 +326,9 @@ if __name__ in "__main__":
 		device = "cpu"
 
 		for ni, xi, si, simupi in zip(args.name, args.nsimu, args.set, args.simup):
-
-			if "output_test" != ni:
 				
-				codes.append(f"{batch_codes['simu'][0]} nsimu={xi} f={ni} {si} {simupi} tsim")
-				batch_names.append(f"{batch}_{ni}")
-
-			else:
-
-				codes.append(f"{batch_codes['simu'][0]} x{xi} tsim v=0 lsp test")
-				batch_names.append(f"{batch_name}_output_test")
+			codes.append(f"{batch_codes['simu'][0]} nsimu={xi} f={ni} set={si} {simupi}")
+			batch_names.append(f"{batch}_{ni}")
 
 
 
