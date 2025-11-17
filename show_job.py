@@ -99,14 +99,17 @@ def inspect_simu(params):
 	path = f"./results/output_simu/{params['f']}"
 	
 
-	for param in params:
+	# for param in params:
 
-		if len(param) > 0:
+	# 	if len(param) > 0:
 
-			print(param)
+	# 		print(param)
 
-			if param[:5] == "nsimu" : x = int(param[6:])
-			if param[:3] == "set" : s = param[4:]
+	# 		if param[:5] == "nsimu" : x = int(param[6:])
+	# 		if param[:3] == "set" : s = param[4:]
+
+	x = int(params["nsimu"])
+	s = param["set"]
 
 
 	if params['f'] in os.listdir(f"./results/output_simu/"):
