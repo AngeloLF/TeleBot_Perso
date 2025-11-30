@@ -118,7 +118,7 @@ def inspect_simu(params):
 		color = get_color(nb_make, x)
 		lmax = len(str(x))
 
-		labelPC = "" if x == epoch else f" [{nb_make/x*100:6.2f} %]"
+		labelPC = "" if nb_make == x else f" [{nb_make/x*100:6.2f} %]"
 
 		rl = f"Simulator {params['f']} > {s} : {color}{nb_make:{lmax}}/{x}{c.d}{labelPC}"
 		ra = nb_make/x*100
