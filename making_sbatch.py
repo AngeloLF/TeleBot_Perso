@@ -39,8 +39,8 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, d
 		memgpu = "16G" if mem is None else f"{mem}G"
 
 		slurm.append(f"\n# Description Partition")
-		slurm.append(f"#SBATCH --partition={params.partition_gpu}")
-		slurm.append(f"#SBATCH --gres=gpu_{gpu_device}:1")
+		slurm.append(f"#SBATCH --partition={params.partition_gpu}_{gpu_device}")
+		slurm.append(f"#SBATCH --gres=gpu_{gpu_device}")
 		slurm.append(f"#SBATCH --account={params.account}")
 		
 		slurm.append(f"\n# Description de la taches")

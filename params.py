@@ -8,7 +8,7 @@ def __getattr__(name):
 
 partition_cpu = "lsst,htc"
 account = "lsst"
-partition_gpu = "gpu_interactive"
+partition_gpu = "gpu"
 python = "python"
 srun = "srun"
 venv = "./../alfenv"
