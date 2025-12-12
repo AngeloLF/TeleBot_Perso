@@ -13,8 +13,6 @@ python = "python"
 srun = "srun"
 venv = "./../alfenv"
 path = "."
-telegram_token = f"{path_home}ccalf.txt"
-telegram_user = f"{path_home}alfid.txt"
 mail = "angelo.lamure-fontanini@ijclab.in2p3.fr"
 
 
