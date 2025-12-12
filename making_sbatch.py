@@ -285,7 +285,7 @@ if __name__ in "__main__":
 
 	batch_codes = {
 		"flash"       : ["None",                            ["jobname", "code"]],
-		"simu"        : ["SpecSimulator/main_simu.py",      ["nsimu", "name", "set", "simup"]],
+		"simu"        : ["SpecSimulator/main_simu.py",      ["nsimu", "name", "set", "tel", "simup"]],
 		"training"    : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "valid", "e"]],
 		"apply"       : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "test"]],
 		"analyse"     : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "test", "score"]],
@@ -293,7 +293,7 @@ if __name__ in "__main__":
 		"findjob"     : ["None",                            ["modelwl"]] # Model with loss like `SCaM_chi2`
 	}
 
-	arg2split = ["model", "modelwl", "loss", "train", "test", "lr", "load", "nsimu", "name", "set", "score", "simup"]
+	arg2split = ["model", "modelwl", "loss", "train", "test", "lr", "load", "nsimu", "name", "set", "score", "simup", "tel"]
 
 	batch, args = read_SYSargv(batch_codes, arg2split)
 	if batch == "findjob" : args = findJob(args)
@@ -325,9 +325,9 @@ if __name__ in "__main__":
 
 		device = "cpu"
 
-		for ni, xi, si, simupi in zip(args.name, args.nsimu, args.set, args.simup):
+		for ni, xi, si, ti, simupi in zip(args.name, args.nsimu, args.set, args.tel, args.simup):
 				
-			codes.append(f"{batch_codes['simu'][0]} nsimu={xi} f={ni} set={si} {simupi}")
+			codes.append(f"{batch_codes['simu'][0]} nsimu={xi} f={ni} set={si} tel={ti} {simupi}")
 			batch_names.append(f"{batch}_{ni}")
 
 
