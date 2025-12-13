@@ -341,11 +341,11 @@ if __name__ in "__main__":
                 filename = f"test{str_n}{tel_i}"
 
             elif type_i.lower() == "testext":
-                filename == f"test{str_n}EXT{tel_i}"
+                filename = f"test{str_n}EXT{tel_i}"
                 simupi = "test"
 
             elif type_i.lower() == "testot":
-                filename == f"test{str_n}OT{tel_i}"
+                filename = f"test{str_n}OT{tel_i}"
                 set_i = "set1"
 
             codes.append(f"{batch_codes['simu'][0]} nsimu={n_i} f={filename} set={set_i} tel={tel_i} {simupi}")
