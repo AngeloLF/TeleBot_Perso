@@ -408,7 +408,7 @@ if __name__ in "__main__":
 
                     for str_train in args.train:
                         # Check train & valid
-                        train = f"train{str_train}{tel}"
+                        train = f"train{str_train}{tel}" if model != "Spectractor" else str_train
                         if train not in os.listdir(f"./results/output_simu") and model != "Spectractor" and "passall" not in sys.argv:
                             raise Exception(f"Train folder {train} not in ./results/output_simu")
                         valid = f"valid2k{tel}"
