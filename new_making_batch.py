@@ -353,7 +353,7 @@ if __name__ in "__main__":
                 filename = f"test{str_n}GAUSSIAN{tel_i}"
                 psf = "gaussian2d"
 
-            codes.append(f"{batch_codes['simu'][0]} nsimu={n_i} f={filename} set={set_i} tel={tel_i} seed={seed_i} psf={psf} {simupi}")
+            codes.append(f"{batch_codes['simu'][0]} nsimu={n_i} f={filename} set={set_i} tel={tel_i} seed={seed_i} psf={psf_i} {simupi}")
             batch_names.append(f"{batch}_{filename}")
 
 
