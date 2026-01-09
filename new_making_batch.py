@@ -280,7 +280,7 @@ if __name__ in "__main__":
 
     batch_codes = {
         "flash"       : ["None",                            ["jobname", "code"]],
-        "simu"        : ["SpecSimulator/main_simu.py",      ["nsimu", "tel", "type"]],
+        "simu"        : ["SpecSimulator/main_simu.py",      ["nsimu", "tel", "type", "seed"]],
         "training"    : ["Spec2vecModels/train_models.py",  ["model", "loss", "train", "lr", "tel", "e"]],
         "apply"       : ["Spec2vecAnalyse/apply_model.py",  ["model", "loss", "train", "lr", "tel", "test"]],
         "analyse"     : ["Spec2vecAnalyse/analyse_test.py", ["model", "loss", "train", "lr", "tel", "test", "score"]],
@@ -288,7 +288,7 @@ if __name__ in "__main__":
         "findjob"     : ["None",                            ["modelwl"]] # Model with loss like `SCaM_chi2`
     }
 
-    arg2split = ["type", "model", "modelwl", "loss", "train", "test", "lr", "load", "nsimu", "score", "tel"]
+    arg2split = ["type", "model", "modelwl", "loss", "train", "test", "lr", "load", "nsimu", "score", "tel", "seed"]
 
     batch, args = read_SYSargv(batch_codes, arg2split)
     if batch == "findjob" : args = findJob(args)
