@@ -320,10 +320,11 @@ if __name__ in "__main__":
 
         device = "cpu"
 
-        for n_i, type_i, tel_i in zip(args.nsimu, args.type, args.tel):
+        for n_i, type_i, tel_i, seed_i in zip(args.nsimu, args.type, args.tel, args.seed):
 
             simupi = ""
             set_i = "set0"
+            psf_i = "moffat2d"
 
             if int(n_i) < 1000:
                 str_n = n_i
@@ -348,7 +349,11 @@ if __name__ in "__main__":
                 filename = f"test{str_n}OT{tel_i}"
                 set_i = "set1"
 
-            codes.append(f"{batch_codes['simu'][0]} nsimu={n_i} f={filename} set={set_i} tel={tel_i} {simupi}")
+            elif type_i.lower() == "testgauss":
+                filename = f"test{str_n}GAUSSIAN{tel_i}"
+                psf = "gaussian2d"
+
+            codes.append(f"{batch_codes['simu'][0]} nsimu={n_i} f={filename} set={set_i} tel={tel_i} seed={seed_i} psf={psf} {simupi}")
             batch_names.append(f"{batch}_{filename}")
 
 
