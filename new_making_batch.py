@@ -36,7 +36,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, e
 
         slurm.append(f"\n# Description de la taches")
         slurm.append(f"#SBATCH --cpus-per-task=1        # Nombre de CPUs par tâche")
-        slurm.append(f"#SBATCH --time={nbj}-00:00:00        # Limite de temps")
+        slurm.append(f"#SBATCH --time={true_nbj}-00:00:00        # Limite de temps")
         slurm.append(f"#SBATCH --ntasks={ntasks}        # Nombre de tâches")
         slurm.append(f"#SBATCH --mem={memcpu}        # Mémoire demandée")   
 
@@ -51,7 +51,7 @@ def generate_batch(batch_name, codes, device, mult=False, mail=True, log=True, e
         
         slurm.append(f"\n# Description de la taches")
         slurm.append(f"#SBATCH --cpus-per-task=5")
-        slurm.append(f"#SBATCH --time={nbj}-00:00:00        # Limite de temps")
+        slurm.append(f"#SBATCH --time={true_nbj}-00:00:00        # Limite de temps")
         slurm.append(f"#SBATCH --ntasks={ntasks}        # Nombre de tâches")
         slurm.append(f"#SBATCH --mem={memgpu}        # Mémoire demandée")
 
@@ -459,7 +459,6 @@ if __name__ in "__main__":
                 else:
                     codes.append(f"{batch_codes['apply_spectractor'][0]} {test}")
                     batch_names.append(f"{batch}_{test}")
-
 
 
     else:
