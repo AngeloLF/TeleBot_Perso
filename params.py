@@ -15,6 +15,8 @@ venv = "./../alfenv"
 path = "."
 mail = "angelo.lamure-fontanini@ijclab.in2p3.fr"
 
+nbj = {"cpu":1, "gpu":7}
+
 
 if __name__ == "__main__":
 
