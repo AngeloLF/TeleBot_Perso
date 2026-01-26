@@ -515,10 +515,12 @@ if __name__ in "__main__":
                                         if test not in os.listdir(f"./results/output_simu") and "passall" not in sys.argv:
                                             raise Exception(f"Test folder {test} not in ./results/output_simu")
                                         elif "passall" not in sys.argv:
-                                            ntest = len(os.listdir(f"./results/output_simu/{test}"))
+                                            ntest = len(os.listdir(f"./results/output_simu/{test}/image"))
+                                            print(f"Info : {ntest} images in {test}")
                                         else:
                                             try:
-                                                ntest = len(os.listdir(f"./results/output_simu/{test}"))
+                                                ntest = len(os.listdir(f"./results/output_simu/{test}/image"))
+                                                print(f"Info : {ntest} images in {test}")
                                             except:
                                                 ntest = None
 
@@ -542,7 +544,6 @@ if __name__ in "__main__":
 
                                             # if we want multiple cpu
                                             if "ncpu" in dir(args):
-                                                print(f"Find {test} with {ntest} files ...")
                                                 partition = give_partition(ntest, int(args.ncpu))
                                                 begin_with = np.concatenate((np.array([0]), np.cumsum(partition)[:-1])) # [3, 3, 2, 2] to [0, 3, 6, 8]
                                                 for p, b in zip(partition, begin_with):
