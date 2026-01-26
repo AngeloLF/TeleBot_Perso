@@ -503,15 +503,24 @@ if __name__ in "__main__":
                                 else:
 
                                     for str_test in args.test:
-                                        test = f"test1k{tel}" if str_test == "x" else f"test1k{str_test.upper()}{tel}" 
+
+                                        if str_test == "x":
+                                            test = f"test1k{tel}"
+                                        elif str_test in ["ext", "ot", "gaussian"]:
+                                            test = f"test1k{str_test.upper()}{tel}"
+                                        else:
+                                            test = f"test{str_test.upper()}{tel}"
+
                                         # Check test
                                         if test not in os.listdir(f"./results/output_simu") and "passall" not in sys.argv:
                                             raise Exception(f"Test folder {test} not in ./results/output_simu")
                                         elif "passall" not in sys.argv:
                                             ntest = len(os.listdir(f"./results/output_simu/{test}"))
                                         else:
-                                            ntest = None
-
+                                            try:
+                                                ntest = len(os.listdir(f"./results/output_simu/{test}"))
+                                            except:
+                                                ntest = None
 
                                         if batch == "apply":
 
