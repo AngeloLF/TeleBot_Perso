@@ -542,6 +542,7 @@ if __name__ in "__main__":
 
                                             # if we want multiple cpu
                                             if "ncpu" in dir(args):
+                                                print(f"Find {test} with {ntest} files ...")
                                                 partition = give_partition(ntest, int(args.ncpu))
                                                 begin_with = np.concatenate((np.array([0]), np.cumsum(partition)[:-1])) # [3, 3, 2, 2] to [0, 3, 6, 8]
                                                 for p, b in zip(partition, begin_with):
