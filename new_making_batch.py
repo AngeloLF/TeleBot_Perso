@@ -314,8 +314,8 @@ if __name__ in "__main__":
         "apply"                : ["Spec2vecAnalyse/apply_model.py",       ["model", "loss", "train", "lr", "tel", "test"]],
         "apply_spectractor"    : ["Spec2vecAnalyse/apply_spectractor.py", ["test", "tel"]],
         "analyse"              : ["Spec2vecAnalyse/analyse_test.py",      ["model", "loss", "train", "lr", "tel", "test", "score"]],
-        "extract_atmo"         : ["Spec2vecAnalyse/extractAtmo.py",       ["model", "loss", "train", "lr", "tel", "test"]],
-        "analyse_atmo"         : ["Spec2vecAnalyse/extractAtmo.py",       ["test", "tel"]],
+        "extract_atmo"         : ["ExtractAtmos/extractAtmo.py",       ["model", "loss", "train", "lr", "tel", "test"]],
+        "analyse_atmo"         : ["ExtractAtmos/extractAtmo.py",       ["test", "tel"]],
         "analyseFOPA"          : ["Spec2vecAnalyse/analyse_FOPA.py",      ["model", "loss", "train", "lr", "tel", "test", "score"]],
         "findjob"              : ["None",                                 ["modelwl"]] # Model with loss like `SCaM_chi2`
     }
