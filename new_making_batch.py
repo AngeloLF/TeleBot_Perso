@@ -545,10 +545,10 @@ if __name__ in "__main__":
                                                 partition = give_partition(ntest, int(args.ncpu))
                                                 begin_with = np.concatenate((np.array([0]), np.cumsum(partition)[:-1])) # [3, 3, 2, 2] to [0, 3, 6, 8]
                                                 for p, b in zip(partition, begin_with):
-                                                    codes.append(f"{batch_codes['extract_atmo'][0]} model={model} train={train} test={test} loss={loss} lr={lr} load={load} range={b}_{p}")
+                                                    codes.append(f"{batch_codes['extract_atmo'][0]} extract_atmo model={model} train={train} test={test} loss={loss} lr={lr} load={load} range={b}_{p}")
                                                     batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{load}_{b}_{p}")
                                             else:
-                                                codes.append(f"{batch_codes['extract_atmo'][0]} model={model} train={train} test={test} loss={loss} lr={lr} load={load}")
+                                                codes.append(f"{batch_codes['extract_atmo'][0]} extract_atmo model={model} train={train} test={test} loss={loss} lr={lr} load={load}")
                                                 batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{load}")
 
 
