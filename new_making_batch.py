@@ -308,14 +308,16 @@ if __name__ in "__main__":
 
 
     batch_codes = {
-        "flash"             : ["None",                                 ["jobname", "code"]],
-        "simu"              : ["SpecSimulator/main_simu.py",           ["nsimu", "tel", "type", "seed"]],
-        "training"          : ["Spec2vecModels/train_models.py",       ["model", "loss", "train", "lr", "tel", "e"]],
-        "apply"             : ["Spec2vecAnalyse/apply_model.py",       ["model", "loss", "train", "lr", "tel", "test"]],
-        "apply_spectractor" : ["Spec2vecAnalyse/apply_spectractor.py", ["test", "tel"]],
-        "analyse"           : ["Spec2vecAnalyse/analyse_test.py",      ["model", "loss", "train", "lr", "tel", "test", "score"]],
-        "analyseFOPA"       : ["Spec2vecAnalyse/analyse_FOPA.py",      ["model", "loss", "train", "lr", "tel", "test", "score"]],
-        "findjob"           : ["None",                                 ["modelwl"]] # Model with loss like `SCaM_chi2`
+        "flash"                : ["None",                                 ["jobname", "code"]],
+        "simu"                 : ["SpecSimulator/main_simu.py",           ["nsimu", "tel", "type", "seed"]],
+        "training"             : ["Spec2vecModels/train_models.py",       ["model", "loss", "train", "lr", "tel", "e"]],
+        "apply"                : ["Spec2vecAnalyse/apply_model.py",       ["model", "loss", "train", "lr", "tel", "test"]],
+        "apply_spectractor"    : ["Spec2vecAnalyse/apply_spectractor.py", ["test", "tel"]],
+        "analyse"              : ["Spec2vecAnalyse/analyse_test.py",      ["model", "loss", "train", "lr", "tel", "test", "score"]],
+        "extract_atmo"         : ["Spec2vecAnalyse/extract_atmo.py",      ["model", "loss", "train", "lr", "tel", "test"]],
+        "analyse_atmo"         : ["Spec2vecAnalyse/extract_atmo.py",      ["test", "tel"]],
+        "analyseFOPA"          : ["Spec2vecAnalyse/analyse_FOPA.py",      ["model", "loss", "train", "lr", "tel", "test", "score"]],
+        "findjob"              : ["None",                                 ["modelwl"]] # Model with loss like `SCaM_chi2`
     }
 
     arg2split = ["type", "model", "modelwl", "loss", "train", "test", "lr", "load", "nsimu", "score", "tel", "seed"]
@@ -524,6 +526,21 @@ if __name__ in "__main__":
                                             for score in args.score:
                                                 codes.append(f"{batch_codes['analyse'][0]} model={model} train={train} test={test} loss={loss} lr={lr} score={score} load={load}")
                                                 batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{score}_{load}")
+
+                                        elif batch == "extract_atmo":
+
+                                            device = "cpu"
+
+                                            # if we want multiple cpu
+                                            if "ncpu" in dir(args):
+                                                partition = give_partition(ntest, int(args.ncpu))
+                                                begin_with = np.concatenate((np.array([0]), np.cumsum(partition)[:-1])) # [3, 3, 2, 2] to [0, 3, 6, 8]
+                                                for p, b in zip(partition, begin_with):
+                                                    codes.append(f"{batch_codes['extract_atmo'][0]} model={model} train={train} test={test} loss={loss} lr={lr} load={load} range={b}_{p}")
+                                                    batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{load}_{b}_{p}")
+                                            else:
+                                                codes.append(f"{batch_codes['extract_atmo'][0]} model={model} train={train} test={test} loss={loss} lr={lr} load={load}")
+                                                batch_names.append(f"{batch}_{model}_{loss}_{train}_{test}_{lr}_{load}")
 
 
                                         elif batch == "analyseFOPA":
