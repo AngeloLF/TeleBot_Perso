@@ -467,7 +467,7 @@ if __name__ in "__main__":
 
         for model in args.model:
             # Check model
-            if f"{model}.py" not in os.listdir(f"./Spec2vecModels/architecture") and model != "Spectractor":
+            if f"{model}.py" not in os.listdir(f"./Spec2vecModels/architecture") and model not in ["Spectractor", "true", "spectractorfile"] :
                 raise Exception(f"The architecture model {model} unknow")
 
 
