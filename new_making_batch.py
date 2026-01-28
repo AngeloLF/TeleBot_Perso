@@ -465,9 +465,11 @@ if __name__ in "__main__":
 
     else:
 
+        model_pass = ["Spectractor", "true", "spectractorfile"]
+
         for model in args.model:
             # Check model
-            if f"{model}.py" not in os.listdir(f"./Spec2vecModels/architecture") and model not in ["Spectractor", "true", "spectractorfile"] :
+            if f"{model}.py" not in os.listdir(f"./Spec2vecModels/architecture") and model not in model_pass:
                 raise Exception(f"The architecture model {model} unknow")
 
 
@@ -479,11 +481,11 @@ if __name__ in "__main__":
 
                     for str_train in args.train:
                         # Check train & valid
-                        train = f"train{str_train}{tel}" if model != "Spectractor" else str_train
-                        if train not in os.listdir(f"./results/output_simu") and model != "Spectractor" and "passall" not in sys.argv:
+                        train = f"train{str_train}{tel}" if model not in model_pass else str_train
+                        if train not in os.listdir(f"./results/output_simu") and model not in model_pass and "passall" not in sys.argv:
                             raise Exception(f"Train folder {train} not in ./results/output_simu")
                         valid = f"valid2k{tel}"
-                        if valid not in os.listdir(f"./results/output_simu") and model != "Spectractor" and "passall" not in sys.argv:
+                        if valid not in os.listdir(f"./results/output_simu") and model not in model_pass and "passall" not in sys.argv:
                             raise Exception(f"Valid folder {valid} not in ./results/output_simu")
 
 
